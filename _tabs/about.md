@@ -61,7 +61,7 @@ If you have questions or want to discuss anything technical, feel free to reach 
 - I also compose music & soundtracks.
 - I’ve released (and abandoned) many experimental projects; only a few reached the public, but I'm working to open-source more soon.
 - I spend at least 8 hours a day (sometimes 12+) on TerraVox and related tech.
-- Plan to release some TerraVox systems, NEAT, simulation and other projects tools open-source.
+- Plan to release some TerraVox systems, NEAT, simulation tools and other projects open-source.
 
 ## Contacts
 

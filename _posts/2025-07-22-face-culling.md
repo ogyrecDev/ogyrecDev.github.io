@@ -233,4 +233,5 @@ Happy building!
 - **Telegram:** [@ogyrrrec](https://t.me/ogyrrrec)
 - **Signal:** `0546e47e337a19217a59d92043be4433d93a23946a8d171dccfdab393781e9f77a`
 - **Discord:** `ogyrec_`
+- **TerraVox Discord:** [https://discord.gg/zKY3Tkk837](https://discord.gg/zKY3Tkk837)
 - **Email:** ogyrec.404@proton.me

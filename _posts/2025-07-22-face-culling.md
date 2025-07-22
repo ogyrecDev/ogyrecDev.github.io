@@ -95,6 +95,12 @@ fn should_cull_face_stairs(block, face_direction, neighbor_block) -> bool {
 
 Here, `check_faces_aligned()` means orientation and geometry match exactly.
 
+```rust
+fn check_faces_aligned(a: Block, b: Block, face: BlockFace) -> bool {
+    a.shape == b.shape && a.rotation == b.rotation
+}
+```
+
 ---
 
 ## 4. Implementation Details (from my code)
@@ -103,6 +109,8 @@ Here, `check_faces_aligned()` means orientation and geometry match exactly.
 You only check culling for **border faces** - faces at the edge of the block:
 
 ```rust
+// This avoids checking inner faces of multi-element shapes (like stairs)
+// Only the faces that lie exactly on block borders are relevant for culling
 fn is_border_face(face, vertices, axis, border) -> bool {
     vertices.all(|v| abs(v[axis] - border) < epsilon)
 }

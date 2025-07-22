@@ -208,6 +208,20 @@ fn should_cull_face(block, face, neighbor_block) -> bool {
 
 ---
 
+## Visual Comparison
+
+Here's how the wireframe looks **without face culling**:
+
+![Without culling](/assets/img/posts/2025-07-22-face-culling/no-culling.png)
+
+And here’s the same scene **with face culling enabled**:
+
+![With culling](/assets/img/posts/2025-07-22-face-culling/with-culling.png)
+
+Notice how all hidden faces are skipped, improving both clarity and performance.
+
+---
+
 ## 6. Summary (Why This Works Clearly)
 
 - **Cubes:** always hide faces if both sides are solid.

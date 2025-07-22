@@ -214,7 +214,7 @@ Here's how the wireframe looks **without face culling**:
 
 ![Without culling](/assets/img/posts/2025-07-22-face-culling/no-culling.png)
 
-And here’s the same scene **with face culling enabled**:
+And here's the same scene **with face culling enabled**:
 
 ![With culling](/assets/img/posts/2025-07-22-face-culling/with-culling.png)
 

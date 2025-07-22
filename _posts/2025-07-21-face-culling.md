@@ -1,6 +1,6 @@
 ---
 title: "Face Culling for Cubes and Stairs (Vintage Story-like Method)"
-date: 2024-07-22 00:30:00 +0200
+date: 2025-07-22 11:30:00 +0200
 categories: [guides, voxel]
 tags: [face-culling, voxels, rendering, vintage-story]
 toc: true

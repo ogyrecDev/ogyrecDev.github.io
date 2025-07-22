@@ -20,12 +20,12 @@ Over time, I shifted almost entirely to Rust for both performance and code clari
 
 ## Current Projects
 
-I'm working on **TerraVox**, a hardcore voxel sandbox/survival game focused on:
+I'm working on **[TerraVox](https://discord.gg/zKY3Tkk837)**, a hardcore voxel sandbox/survival game focused on:
 - **Deep world generation**
 - **Data-driven modding**
 - **Biomes, genetics & mutations**
 - **Flexible survival/creative modes**
-- **Modular AI, including neuroevolution (optional, but well-optimized for modern CPUs/GPUs)**
+- **Modular AI, including neuroevolution (optional, but well-optimized for CPUs/GPUs)**
 - **Reputation, clan systems, and emergent diplomacy**
 - **Multiplayer from day one**
 
@@ -65,8 +65,9 @@ If you have questions or want to discuss anything technical, feel free to reach 
 
 ## Contacts
 
-- **GitHub:** [@ogyrec](https://github.com/ogyrec-o)
+- **GitHub:** [@ogyrec-o](https://github.com/ogyrec-o)
 - **Telegram:** [@ogyrrrec](https://t.me/ogyrrrec)
 - **Signal:** `0546e47e337a19217a59d92043be4433d93a23946a8d171dccfdab393781e9f77a`
 - **Discord:** `ogyrec_`
+- **TerraVox Discord:** [https://discord.gg/zKY3Tkk837](https://discord.gg/zKY3Tkk837)
 - **Email:** ogyrec.404@proton.me

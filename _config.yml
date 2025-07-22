@@ -22,7 +22,7 @@ description: >- # used by seo meta and the atom feed
   Minimalist blog and dev notes about voxel engines, rendering, face culling, simulations, open-source code, and technical experiments. For everyone who wants to understand, create, and break the boundaries.
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: "https://ogyrec.github.io"
+url: "https://ogyrecdev.github.io"
 
 github:
   username: ogyrec # change to your GitHub username

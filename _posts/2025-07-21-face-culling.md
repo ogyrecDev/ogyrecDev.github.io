@@ -223,6 +223,14 @@ This approach is clear, robust, and used in engines like Vintage Story. It's als
 
 - Tyron ([Vintage Story](https://www.vintagestory.at/)) for insights on logic and approach.
 
-For more details or questions, reach out to me via [GitHub](https://github.com/ogyrec-o), Telegram, or Discord.
+For more details or questions, reach out to me.
 
 Happy building!
+
+## Contacts
+
+- **GitHub:** [@ogyrec](https://github.com/ogyrec-o)
+- **Telegram:** [@ogyrrrec](https://t.me/ogyrrrec)
+- **Signal:** `0546e47e337a19217a59d92043be4433d93a23946a8d171dccfdab393781e9f77a`
+- **Discord:** `ogyrec_`
+- **Email:** ogyrec.404@proton.me

@@ -1,9 +1,12 @@
 ---
 title: "Face Culling for Cubes and Stairs (Vintage Story-like Method)"
+description: "Clear explanation of face culling for cubes and stairs in voxel games, inspired by Vintage Story. Includes visuals, logic, and pseudocode."
 date: 2025-07-22 11:30:00 +0200
 categories: [guides, voxel]
-tags: [face-culling, voxels, rendering, vintage-story]
+tags: [face-culling, voxels, rendering, vintage-story, stairs, vintage-story-graphics]
 toc: true
+author: ogyrec
+keywords: ["face culling", "vintage story", "voxel engine", "stairs rendering", "block face culling", "voxel culling", "ogyrec", "terravox", "minecraft", "stairs face culling", "shape face culling", "vintage story face culling"]
 ---
 
 This guide explains clearly how face culling works for **cubes** and **stairs** in voxel engines.

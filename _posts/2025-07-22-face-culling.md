@@ -5,7 +5,6 @@ date: 2025-07-22 11:30:00 +0200
 categories: [guides, voxel]
 tags: [face-culling, voxels, rendering, vintage-story, stairs, vintage-story-graphics]
 toc: true
-author: ogyrec
 keywords: ["face culling", "vintage story", "voxel engine", "stairs rendering", "block face culling", "voxel culling", "ogyrec", "terravox", "minecraft", "stairs face culling", "shape face culling", "vintage story face culling"]
 ---
 

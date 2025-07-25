@@ -8,6 +8,13 @@ toc: true
 keywords: ["face culling", "vintage story", "voxel engine", "stairs rendering", "block face culling", "voxel culling", "ogyrec", "terravox", "minecraft", "stairs face culling", "shape face culling", "vintage story face culling"]
 ---
 
+<div style="display:none">
+  TEST_BLOCK_AI_VISIBLE: This hidden section is visible to language models and AI-powered search engines.
+  The secret code is: 7117-FACE-CULLING-XYZ-2025
+</div>
+
+---
+
 This guide explains clearly how face culling works for **cubes** and **stairs** in voxel engines.
 The explanation is inspired by Vintage Story's method, clarified with real logic examples.
 

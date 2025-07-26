@@ -39,7 +39,7 @@ social:
     # The first element serves as the copyright owner's link
     # - https://twitter.com/username # change to your Twitter homepage
     - https://github.com/ogyrec-o # change to your GitHub homepage
-    - https://t.me/ogyrrrec
+    # - https://t.me/
     - https://discord.gg/zKY3Tkk837
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
@@ -205,6 +205,9 @@ compress_html:
   blanklines: false
   ignore:
     envs: [development]
+
+include:
+  - .well-known
 
 exclude:
   - "*.gem"

@@ -1,6 +1,7 @@
 ---
 title: "Why I Write My Own Engine"
 description: "A deep dive into the motivations, structure, and philosophy behind building a custom engine from scratch. Why not Unity, Godot, or Bevy?"
+image: /assets/img/posts/2025-07-27-why-i-write-my-own-engine/preview.png
 date: 2025-07-26 23:50:00 +0200
 categories: [devlog, terravox]
 tags: [custom-engine, rust, godot, bevy, modding, indie-dev, architecture]

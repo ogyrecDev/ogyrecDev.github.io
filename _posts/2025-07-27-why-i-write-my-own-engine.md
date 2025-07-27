@@ -102,7 +102,7 @@ Just Rust. Just code. Just logic.
 Because I want to build a team - even a small one.
 
 I want other devs to look at my project and say:
-**“I get it. I can help. Let's build this.”**
+**"I get it. I can help. Let's build this."**
 
 So I write cleanly, I comment key parts, I document the API, and I think in terms of:
 

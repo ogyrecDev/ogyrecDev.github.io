@@ -193,7 +193,7 @@ See Mojang's:
 - More complex to serialize and debug
 - No `Vec<u8>` or `Vec<u16>` – must write custom bitarray
 
-Benchmarks in real-world engines (like Minecraft modded or cubic chunks) often show 1.5x to 2x slower access compared to flat arrays.  
+Benchmarks in real-world engines (like Minecraft modded or cubic chunks) often show 1.5x to 2x slower access compared to flat arrays.
 So weigh trade-offs carefully.
 
 ---
@@ -235,7 +235,7 @@ This keeps your system future-proof and avoids artificial limits.
 I didn’t know about this when I started building TerraVox.  
 There wasn’t a simple post explaining it clearly.
 
-A dev from Vintage Story explained the concept to me – and it completely changed how I approached chunk storage.
+Back when I was learning voxel engine internals, Tyron from Vintage Story explained this idea to me – and it completely changed how I thought about chunk storage.
 
 If you're working on a voxel game, I hope this guide saves you from the same early mistakes – and gives you a solid foundation to build on.
 

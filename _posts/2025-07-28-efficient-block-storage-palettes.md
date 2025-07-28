@@ -174,8 +174,9 @@ Too complex for little benefit.
 
 - For 2 blocks -> 1 bit
 - For 4 blocks -> 2 bits
-- ...
-- For 256+ blocks -> fallback to global ID (13 bits)
+- For 16 blocks -> 4 bits
+- For 256 blocks -> 8 bits
+- For >256 blocks -> fallback to global ID (13 bits)
 
 Internally stored as a **bitstream** with dynamic `bits_per_block`.
 

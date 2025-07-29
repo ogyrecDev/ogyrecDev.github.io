@@ -54,7 +54,7 @@ In TerraVox, the format is:
 Memory usage:
 
 - 32 KB for block indices (`32768` x `u8`)
-- + max ~0.5 KB for the palette (`255` x `u16`)
+- +max ~0.5 KB for the palette (`255` x `u16`)
 
 **Total: ~33 KB per chunk -> nearly 2x smaller than naive `u16` storage.**
 
@@ -139,8 +139,7 @@ let blocks: Vec<u16> = vec![0; 32768];
 - Slightly slower to serialize due to size
 - Wasteful in most chunks
 
-This is what **Minecraft does internally** using `bits_per_block` – if more than 8 bits are needed, it falls back to 13-bit global IDs.  
-See [PalettedContainer.java (source)](https://github.com/KryptonMC/Krypton/blob/trunk/server/src/main/java/org/kryptonmc/krypton/world/chunks/PalettedContainer.java).
+This is what **Minecraft does internally** using `bits_per_block` – if more than 8 bits are needed, it falls back to 13-bit global IDs.
 
 ### Option B: Multiple palettes (not recommended)
 
@@ -198,7 +197,7 @@ So weigh trade-offs carefully.
 
 ---
 
-## 6. Do You *Have* to Use `u16`?
+## 6. Do You Have to Use `u16`?
 
 No – global `BlockId` can even be `u32` if your game needs >65,536 blocks.
 

@@ -4,15 +4,15 @@ description: "How block palettes reduce chunk memory usage and scale well to tho
 image: /assets/img/posts/2025-07-28-efficient-block-storage-palettes/preview.png
 date: 2025-07-28 21:30:00 +0200
 categories: [guides, voxel]
-tags: [voxel, block-storage, palette, optimization, terravox, chunk]
+tags: [voxel, block-storage, palette, optimization, freven, chunk]
 toc: true
-keywords: ["voxel palette", "block id", "chunk storage", "memory efficient voxel", "block system", "mod support", "paletted chunks", "voxel optimization", "terravox", "vintage story", "minecraft"]
+keywords: ["voxel palette", "block id", "chunk storage", "memory efficient voxel", "block system", "mod support", "paletted chunks", "voxel optimization", "freven", "vintage story", "minecraft"]
 ---
 
 When building a voxel game engine, one of the first questions you'll run into is:  
 **How should I store block data in a chunk efficiently – without wasting memory, and without limiting flexibility?**
 
-This post explains the **palette-based approach** I use in [TerraVox](https://discord.gg/zKY3Tkk837), why it's better than just storing raw `u16` block IDs, and what to do **if your chunk ends up with more than 255 block types**.
+This post explains the **palette-based approach** I use in [Freven](https://discord.gg/zKY3Tkk837), why it's better than just storing raw `u16` block IDs, and what to do **if your chunk ends up with more than 255 block types**.
 
 It's written especially for people starting out – because when I began, I had no idea this even mattered. Until a developer from Vintage Story explained it to me.
 
@@ -37,14 +37,14 @@ The problem is: **most chunks don’t use more than 50–100 unique blocks.** So
 
 ---
 
-## 2. The Palette-Based Format (Used in TerraVox and Vintage Story)
+## 2. The Palette-Based Format (Used in Freven and Vintage Story)
 
-Both [TerraVox](https://discord.gg/zKY3Tkk837) and [Vintage Story](https://www.vintagestory.at/) use **per-chunk palettes** for compact block storage.
+Both [Freven](https://discord.gg/zKY3Tkk837) and [Vintage Story](https://www.vintagestory.at/) use **per-chunk palettes** for compact block storage.
 
 > **Note from Tyron (Vintage Story dev via DM):**  
 > Block data we store in a paletted format, much like a .gif file with a color palette. Each 32x32x32 chunk gets its own palette. This allows compact storage (because most chunks never use many variants of blocks), but you do need to resize the palette and index array when new types get added.
 
-In TerraVox, the format is:
+In Freven, the format is:
 
 - Global `BlockId` is `u16` (supports up to 65,536 unique block types).
 - Each chunk stores:
@@ -231,7 +231,7 @@ This keeps your system future-proof and avoids artificial limits.
 
 ## Final Thoughts
 
-I didn’t know about this when I started building TerraVox.  
+I didn’t know about this when I started building Freven.  
 There wasn’t a simple post explaining it clearly.
 
 Back when I was learning voxel engine internals, Tyron from Vintage Story explained this idea to me – and it completely changed how I thought about chunk storage.
@@ -245,4 +245,4 @@ If you're working on a voxel game, I hope this guide saves you from the same ear
 - GitHub: [@ogyrec-o](https://github.com/ogyrec-o)  
 - Email: ogyrec.404@proton.me  
 - Discord: `ogyrec_`  
-- [TerraVox Discord](https://discord.gg/zKY3Tkk837)
+- [Freven Discord](https://discord.gg/zKY3Tkk837)

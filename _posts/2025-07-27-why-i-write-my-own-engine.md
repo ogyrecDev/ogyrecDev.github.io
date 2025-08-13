@@ -3,7 +3,7 @@ title: "Why I Write My Own Engine"
 description: "A deep dive into the motivations, structure, and philosophy behind building a custom engine from scratch. Why not Unity, Godot, or Bevy?"
 image: /assets/img/posts/2025-07-27-why-i-write-my-own-engine/preview.png
 date: 2025-07-26 23:50:00 +0200
-categories: [devlog, terravox]
+categories: [devlog, freven]
 tags: [custom-engine, rust, godot, bevy, modding, indie-dev, architecture]
 toc: true
 ---
@@ -168,5 +168,5 @@ Feel free to reach out. I'm always open to good conversation and code.
 - **GitHub:** [@ogyrec-o](https://github.com/ogyrec-o)
 - **Signal:** `0546e47e337a19217a59d92043be4433d93a23946a8d171dccfdab393781e9f77a`
 - **Discord:** `ogyrec_`
-- **TerraVox Discord:** [https://discord.gg/zKY3Tkk837](https://discord.gg/zKY3Tkk837)
+- **Freven Discord:** [https://discord.gg/zKY3Tkk837](https://discord.gg/zKY3Tkk837)
 - **Email:** ogyrec.404@proton.me

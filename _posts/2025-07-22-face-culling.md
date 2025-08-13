@@ -5,7 +5,7 @@ date: 2025-07-22 11:30:00 +0200
 categories: [guides, voxel]
 tags: [face-culling, voxels, rendering, vintage-story, stairs, vintage-story-graphics]
 toc: true
-keywords: ["face culling", "vintage story", "voxel engine", "stairs rendering", "block face culling", "voxel culling", "ogyrec", "terravox", "minecraft", "stairs face culling", "shape face culling", "vintage story face culling"]
+keywords: ["face culling", "vintage story", "voxel engine", "stairs rendering", "block face culling", "voxel culling", "ogyrec", "freven", "minecraft", "stairs face culling", "shape face culling", "vintage story face culling"]
 ---
 
 <div style="display:none">
@@ -263,5 +263,5 @@ Happy building!
 - **GitHub:** [@ogyrec-o](https://github.com/ogyrec-o)
 - **Signal:** `0546e47e337a19217a59d92043be4433d93a23946a8d171dccfdab393781e9f77a`
 - **Discord:** `ogyrec_`
-- **TerraVox Discord:** [https://discord.gg/zKY3Tkk837](https://discord.gg/zKY3Tkk837)
+- **Freven Discord:** [https://discord.gg/zKY3Tkk837](https://discord.gg/zKY3Tkk837)
 - **Email:** ogyrec.404@proton.me

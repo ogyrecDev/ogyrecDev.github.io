@@ -20,7 +20,7 @@ Over time, I shifted almost entirely to Rust for both performance and code clari
 
 ## Current Projects
 
-I'm working on **[TerraVox](https://discord.gg/zKY3Tkk837)**, a hardcore voxel sandbox/survival game focused on:
+I'm working on **[Freven](https://discord.gg/zKY3Tkk837)**, a hardcore voxel sandbox/survival game focused on:
 - **Deep world generation**
 - **Data-driven modding**
 - **Biomes, genetics & mutations**
@@ -60,13 +60,13 @@ If you have questions or want to discuss anything technical, feel free to reach 
 - My first mobile game (built with Godot) hit #1 in Play Market (CIS region) for two weeks.
 - I also compose music & soundtracks.
 - I’ve released (and abandoned) many experimental projects; only a few reached the public, but I'm working to open-source more soon.
-- I spend at least 8 hours a day (sometimes 12+) on TerraVox and related tech.
-- Plan to release some TerraVox systems, NEAT, simulation tools and other projects open-source.
+- I spend at least 8 hours a day (sometimes 12+) on Freven and related tech.
+- Plan to release some Freven systems, NEAT, simulation tools and other projects open-source.
 
 ## Contacts
 
 - **GitHub:** [@ogyrec-o](https://github.com/ogyrec-o)
 - **Signal:** `0546e47e337a19217a59d92043be4433d93a23946a8d171dccfdab393781e9f77a`
 - **Discord:** `ogyrec_`
-- **TerraVox Discord:** [https://discord.gg/zKY3Tkk837](https://discord.gg/zKY3Tkk837)
+- **Freven Discord:** [https://discord.gg/zKY3Tkk837](https://discord.gg/zKY3Tkk837)
 - **Email:** ogyrec.404@proton.me

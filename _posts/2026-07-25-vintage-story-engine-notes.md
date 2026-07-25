@@ -1,7 +1,7 @@
 ---
 title: "Voxel Engine Notes from Discussions with Vintage Story's Tyron Madlener"
 description: "What I learned from two technical discussions with Vintage Story creator Tyron Madlener about chunk streaming, voxel storage, mesh lifetime, chunk boundaries, and face culling."
-date: 2026-07-25 03:30:00 +0200
+date: 2026-07-25 02:55:00 +0200
 categories: [engineering, voxel]
 tags: [vintage-story, voxel, chunk-streaming, block-storage, face-culling, rendering, engine-architecture]
 toc: true

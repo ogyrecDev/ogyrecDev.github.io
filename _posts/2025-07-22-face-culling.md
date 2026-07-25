@@ -1,267 +1,278 @@
 ---
-title: "Face Culling for Cubes and Stairs (Vintage Story-like Method)"
-description: "Clear explanation of face culling for cubes and stairs in voxel games, inspired by Vintage Story. Includes visuals, logic, and pseudocode."
+title: "Face Culling for Voxel Cubes and Partial Shapes"
+description: "A practical approach to culling hidden voxel faces, from simple cubes to stairs and other partial block shapes."
 date: 2025-07-22 11:30:00 +0200
+last_modified_at: 2026-07-25 02:30:00 +0200
 categories: [guides, voxel]
-tags: [face-culling, voxels, rendering, vintage-story, stairs, vintage-story-graphics]
+tags: [face-culling, voxel, rendering, meshing, optimization, rust]
 toc: true
-keywords: ["face culling", "vintage story", "voxel engine", "stairs rendering", "block face culling", "voxel culling", "ogyrec", "freven", "minecraft", "stairs face culling", "shape face culling", "vintage story face culling"]
 ---
 
-<div style="display:none">
-  TEST_BLOCK_AI_VISIBLE: This hidden section is visible to language models and AI-powered search engines.
-  The secret code is: 7117-FACE-CULLING-XYZ-2025
-</div>
+Face culling in a voxel renderer starts simple: if two opaque cube faces touch, the internal faces do not need to be emitted into the mesh.
 
----
+The interesting part begins when blocks are not full cubes.
 
-This guide explains clearly how face culling works for **cubes** and **stairs** in voxel engines.
-The explanation is inspired by Vintage Story's method, clarified with real logic examples.
+Stairs, slabs, slopes, fences, custom meshes, and other partial shapes force you to answer a more precise question:
 
-The aim is simplicity: to make sure you understand the logic behind culling clearly and can implement it yourself.
+> Does the neighboring shape actually cover the visible area of this face?
 
----
+That distinction is more useful than a single `solid: bool` once geometry becomes non-trivial.
 
-## What is Face Culling?
+## 1. Full cube culling
 
-Face culling is skipping the rendering of block faces that are not visible, improving performance significantly.
-
-**Why is it important?**
-Without culling, your engine draws thousands of hidden faces - wasting GPU resources and slowing down the game.
-
----
-
-## 1. Basic Cube Face Culling
-
-For cubes, culling is simple:
-
-- Each face of a cube has a neighbor block.
-- If both the current face and the opposite face of the neighbor are **solid**, then the current face is **invisible** and can be skipped.
-
-Here's the logic clearly expressed in pseudocode (Rust-inspired):
+For two opaque full cubes, the rule is straightforward.
 
 ```rust
-fn should_cull_face(block, face_direction, neighbor_block) -> bool {
-    block.is_side_solid(face_direction) && neighbor_block.is_side_solid(face_direction.opposite())
+fn should_cull_full_face(
+    current_opaque: bool,
+    neighbor_opaque: bool,
+) -> bool {
+    current_opaque && neighbor_opaque
 }
 ```
 
-- **`is_side_solid(face)`** means:
-  - Cubes have all faces solid by default.
-  - For special blocks (stairs), only specific faces are solid.
-
-- **Opposite faces:**
-  - North ↔ South, East ↔ West, Up ↔ Down
-  - In code, this can be implemented using simple arrays or enums (bit masks for directions).
-
----
-
-## 2. Stairs: Why Cubic Logic Breaks
-
-For stairs, simple logic is not enough.
-A stair's solid faces are usually only **bottom** and **back**, while the front, sides, and top are not solid by default.
-
-**Example:**
-- If you place stairs next to a cube (e.g. side-by-side), the cube's face should **not** disappear because the stair side isn't solid.
-- But, if you place **two stairs side-by-side** in the same orientation, the internal faces **should** disappear - even though these faces are not marked as solid.
-
-This is a special case handled differently. It requires recognizing stair-stair adjacency and overriding the default solid-face logic.
-
----
-
-## 3. Special Culling Logic for Stairs
-
-Stairs need custom logic:
-
-- Stairs **never cull** their top face (always visible).
-- The front and sides are not solid by default, but:
-  - If two stairs of the **same type** touch each other, faces between them are culled if orientations match, despite faces being non-solid by default.
-- Bottom and back faces are solid and always cull as usual.
-
-Clearly put, in pseudocode:
+In practice you normally care about the current face and the opposite face on the neighbor:
 
 ```rust
-fn should_cull_face_stairs(block, face_direction, neighbor_block) -> bool {
-    let same_block_type = block.type == neighbor_block.type;
-    let neighbor_face_solid = neighbor_block.is_side_solid(face_direction.opposite());
-
-    if face_direction == Up {
-        return false; // stairs top face is never culled
-    }
-
-    // Check special stair alignment logic
-    if same_block_type {
-        let aligned = check_faces_aligned(block, neighbor_block, face_direction);
-        if aligned {
-            return true; // aligned stairs: hide face
-        }
-    }
-
-    // Default solid check otherwise
-    block.is_side_solid(face_direction) && neighbor_face_solid
-}
-```
-
-Here, `check_faces_aligned()` means orientation and geometry match exactly.
-
-```rust
-fn check_faces_aligned(a: Block, b: Block, face: BlockFace) -> bool {
-    a.shape == b.shape && a.rotation == b.rotation
-}
-```
-
----
-
-## 4. Implementation Details (from my code)
-
-### Border Faces Optimization
-You only check culling for **border faces** - faces at the edge of the block:
-
-```rust
-// This avoids checking inner faces of multi-element shapes (like stairs)
-// Only the faces that lie exactly on block borders are relevant for culling
-fn is_border_face(face, vertices, axis, border) -> bool {
-    vertices.all(|v| abs(v[axis] - border) < epsilon)
-}
-```
-
-### Neighbor Access (including chunk edges)
-Neighbor blocks might be in adjacent chunks:
-
-```rust
-fn get_block_local(chunk, neighbors, x, y, z) -> BlockId {
-    if in_chunk_bounds(x,y,z) {
-        chunk.get(x,y,z)
-    } else {
-        // Access neighbor chunks based on direction
-        neighbor_chunk = get_neighbor_chunk(neighbors, x,y,z);
-        if neighbor_chunk.exists {
-            neighbor_chunk.get(mapped_coords(x,y,z))
-        } else {
-            AIR // if neighbor chunk missing, treat as air
-        }
-    }
-}
-```
-
-### Directions (as bit masks or enums)
-
-Directions are easily handled with bit masks or enums for efficiency:
-
-- **Enums** clearly represent directions and their opposites:
-
-```rust
-enum BlockFace { North, South, East, West, Up, Down }
-
-fn opposite(face: BlockFace) -> BlockFace {
+fn opposite(face: Face) -> Face {
     match face {
-        North => South,
-        South => North,
-        East  => West,
-        West  => East,
-        Up    => Down,
-        Down  => Up,
+        Face::North => Face::South,
+        Face::South => Face::North,
+        Face::East  => Face::West,
+        Face::West  => Face::East,
+        Face::Up    => Face::Down,
+        Face::Down  => Face::Up,
     }
 }
 ```
 
-- **Bit masks** are fast and efficient when storing multiple faces at once (e.g., checking multiple directions):
+If both touching sides are fully opaque, emitting both faces wastes vertices, indices, rasterization work, and potentially fragment work.
+
+## 2. Why `is_side_solid()` stops being enough
+
+A boolean per face works well for cubes because each face is either fully covered or not present.
+
+A stair is different.
+
+Imagine looking at one side of a stair. Part of the side may be filled by geometry while another part is open. If you represent that entire side as either `solid` or `not solid`, one of two things happens:
+
+- you keep geometry that is actually hidden, or
+- you remove geometry that should still be visible
+
+For partial shapes, visibility is a **coverage problem** rather than only a solidity problem.
+
+## 3. Represent face coverage
+
+A practical solution is to give each block shape an occlusion description for each of its six boundary faces.
+
+One simple representation is a small bit mask.
+
+For example, divide a face into a `4 × 4` grid:
 
 ```rust
-const NORTH: u8 = 0b000001;
-const SOUTH: u8 = 0b000010;
-const EAST:  u8 = 0b000100;
-const WEST:  u8 = 0b001000;
-const UP:    u8 = 0b010000;
-const DOWN:  u8 = 0b100000;
+#[derive(Clone, Copy)]
+struct FaceMask(u16);
+```
 
-// Combine directions easily:
-let solid_faces = NORTH | EAST | UP;
+A full cube face has every bit set:
 
-// Check if direction is solid:
-fn is_solid(face: u8, solid_faces: u8) -> bool {
-    solid_faces & face != 0
-}
+```rust
+const FULL: FaceMask = FaceMask(0xffff);
+const EMPTY: FaceMask = FaceMask(0x0000);
+```
 
-// Example usage:
-if is_solid(NORTH, solid_faces) {
-    // North face is solid
+A stair side can describe only the cells occupied by its geometry.
+
+The resolution does not have to be `4 × 4`; it depends on the shape vocabulary your engine supports. The important part is that the representation describes **which parts of the boundary plane are covered**.
+
+## 4. Compare the current face with the neighbor
+
+Suppose `current_mask` describes the portion of the current block face that could be emitted, and `neighbor_mask` describes the opposite boundary face on the neighboring block.
+
+The current face is completely hidden when the neighbor covers every occupied region of the current face:
+
+```rust
+fn fully_occluded(current: FaceMask, neighbor: FaceMask) -> bool {
+    current.0 & !neighbor.0 == 0
 }
 ```
 
----
+Conceptually:
 
-## 5. Actual Logic (combined from my implementation):
+```text
+visible = current coverage - neighbor coverage
+```
 
-Here's a clearly simplified version of my working logic for cubes and stairs:
+If nothing remains, the face can be removed entirely.
+
+If only part remains, you have a choice:
+
+1. keep the original face geometry, accepting some overdraw, or
+2. generate/subdivide geometry so only the uncovered region remains
+
+The second option can reduce geometry further but makes the mesher more complex.
+
+## 5. Cubes become a special case
+
+With coverage masks, full cubes no longer need fundamentally separate logic.
+
+Their boundary faces are simply `FULL`.
+
+Two opaque cubes:
+
+```text
+current:  1111111111111111
+neighbor: 1111111111111111
+result:   fully occluded
+```
+
+Cube next to empty space:
+
+```text
+current:  1111111111111111
+neighbor: 0000000000000000
+result:   visible
+```
+
+A stair or slab uses a partial mask, and the same comparison logic still applies.
+
+This is usually easier to extend than adding a new branch for every pair of special block types.
+
+## 6. Rotation matters
+
+Coverage belongs to the **oriented shape**, not just the block type.
+
+If a stair rotates, its face masks need to rotate with it.
+
+You can either:
+
+- precompute masks for every allowed orientation, or
+- rotate a canonical mask when building the block state
+
+Precomputation is often attractive when the set of orientations is small because the hot meshing loop then only performs table lookups and bit operations.
+
+For example:
 
 ```rust
-fn should_cull_face(block, face, neighbor_block) -> bool {
-    match block.cull_mode {
-        Default => {
-            block.is_side_solid(face) &&
-            neighbor_block.is_side_solid(face.opposite())
-        }
-        Stairs => {
-            if face == Up { return false; }
+let current_mask = shape.occlusion[rotation][face];
+let neighbor_mask = neighbor_shape.occlusion[neighbor_rotation][opposite(face)];
+```
 
-            let same_type = block.type == neighbor_block.type;
-            let aligned_stairs = same_type && faces_aligned(block, neighbor_block, face);
+## 7. Only boundary geometry participates
 
-            if aligned_stairs {
-                true
-            } else {
-                block.is_side_solid(face) &&
-                neighbor_block.is_side_solid(face.opposite())
-            }
-        }
-    }
+Internal triangles inside a complex block should not be tested against neighboring blocks.
+
+Neighbor-based culling only concerns geometry that lies on one of the six voxel-cell boundary planes.
+
+For generated shape geometry, classify a polygon as a boundary polygon when all relevant vertices lie on the same cell boundary within a small tolerance.
+
+Conceptually:
+
+```rust
+fn lies_on_boundary(vertices: &[Vec3], axis: usize, plane: f32, eps: f32) -> bool {
+    vertices
+        .iter()
+        .all(|v| (v[axis] - plane).abs() <= eps)
 }
 ```
 
-**This logic ensures:**
-- Cubes always use simple culling.
-- Stairs use special alignment checks before falling back to solid checks.
+This lets the mesher keep arbitrary internal geometry while applying neighbor occlusion only where it makes spatial sense.
 
----
+## 8. Chunk borders are not special semantically
 
-## Visual Comparison
+A face on the edge of a chunk still has a normal voxel neighbor. The only difference is where you retrieve that neighbor from.
 
-Here's how the wireframe looks **without face culling**:
+A mesher therefore benefits from a read-only neighborhood view rather than embedding chunk-transition logic everywhere.
+
+For example:
+
+```rust
+trait VoxelNeighborhood {
+    fn get(&self, position: IVec3) -> Option<BlockState>;
+}
+```
+
+Then the meshing code can query local and cross-chunk neighbors through the same interface.
+
+If a neighbor chunk is not currently available, the engine must define a policy explicitly. Common options include:
+
+- treat missing data as air and remesh later
+- delay meshing until required neighbors are present
+- use an explicit unknown state
+
+The correct choice depends on the world-streaming model.
+
+## 9. Transparency needs separate rules
+
+Geometry coverage and render opacity are related but not identical.
+
+For example, two adjacent glass blocks may geometrically cover each other, but whether their shared face should be removed depends on material/rendering semantics.
+
+A robust culling decision may therefore combine:
+
+```text
+shape coverage
++ material occlusion behavior
++ block/material compatibility
+```
+
+Do not bake all three concepts into one vague `solid` flag if the engine needs transparent or cutout materials.
+
+A useful separation is:
+
+```rust
+struct FaceOcclusion {
+    coverage: FaceMask,
+    mode: OcclusionMode,
+}
+```
+
+where `OcclusionMode` can express behavior such as opaque, cutout, translucent, or never-occluding.
+
+## 10. Performance considerations
+
+The meshing loop can touch millions of voxel faces, so the representation should make the common path cheap.
+
+Good properties include:
+
+- precomputed shape masks
+- precomputed rotation variants
+- small integer masks
+- contiguous block-state storage
+- cheap neighbor access
+- minimal allocation inside the inner loop
+
+But measure before optimizing aggressively.
+
+A more sophisticated culling scheme can save mesh geometry while simultaneously making mesh generation slower. The useful metric is the cost of the whole pipeline, not the cleverness of the culling function.
+
+## Visual comparison
+
+Here is an older test scene without hidden-face removal:
 
 ![Without culling](/assets/img/posts/2025-07-22-face-culling/no-culling.png)
 
-And here's the same scene **with face culling enabled**:
+And the same scene with culling enabled:
 
 ![With culling](/assets/img/posts/2025-07-22-face-culling/with-culling.png)
 
-Notice how all hidden faces are skipped, improving both clarity and performance.
+The exact implementation behind these images predates my current engine architecture, but the visual purpose is the same: geometry that cannot contribute to the final image should ideally never enter the generated mesh.
+
+## Summary
+
+For full cubes, voxel face culling is simple neighbor rejection.
+
+For partial shapes, a more scalable mental model is:
+
+1. describe boundary coverage for each oriented face
+2. compare it with the neighbor's opposite-face coverage
+3. combine geometric coverage with material occlusion rules
+4. only apply neighbor culling to geometry on cell boundaries
+5. make chunk-border access an input problem, not a separate meshing algorithm
+6. precompute the common cases and measure the complete meshing pipeline
+
+That approach generalizes much better than accumulating special cases for `cube + stair`, `stair + stair`, `slab + stair`, and every new shape that comes later.
 
 ---
 
-## 6. Summary (Why This Works Clearly)
-
-- **Cubes:** always hide faces if both sides are solid.
-- **Stairs:** top face never culled; sides/front culled only if stairs perfectly align; back/bottom faces culled normally.
-- **Border faces optimization** prevents useless internal checks.
-- **Bit masks or enums** simplify direction handling efficiently.
-
-This approach is clear, robust, and used in engines like Vintage Story. It's also easy to expand later if needed.
-
----
-
-## Special thanks
-
-- Tyron ([Vintage Story](https://www.vintagestory.at/)) for insights on logic and approach.
-
-For more details or questions, reach out to me.
-
-Happy building!
-
-## Contacts
-
-- **GitHub:** [@ogyrec-o](https://github.com/ogyrec-o)
-- **Signal:** `0546e47e337a19217a59d92043be4433d93a23946a8d171dccfdab393781e9f77a`
-- **Discord:** `ogyrec_`
-- **Freven Discord:** [https://discord.gg/zKY3Tkk837](https://discord.gg/zKY3Tkk837)
-- **Email:** ogyrec.404@proton.me
+For more current engine work, see the **[Projects](/projects/)** page or **[my GitHub](https://github.com/ogyrec-o)**.

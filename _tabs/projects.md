@@ -45,6 +45,12 @@ Python LLM companion framework with streaming responses, per-dialog history, lon
 
 Rust reinforcement-learning experiment with tabular Q-learning, seeded environments, saved policies and configuration, evaluation metrics, and deterministic visual rollouts.
 
+## Engineering notes and influences
+
+I also write about ideas that shaped how I think about engine architecture. One example is **[Voxel Engine Notes from Discussions with Vintage Story's Tyron Madlener](/posts/vintage-story-engine-notes/)**, which summarizes what I learned in 2025 about chunk streaming, mesh lifetime, compact block storage, chunk boundaries, and face-culling trade-offs in a mature moddable voxel game.
+
+The article focuses on the engineering lessons rather than the correspondence itself, and clearly separates those 2025 implementation notes from Vintage Story's current public documentation.
+
 ## Older work
 
 My GitHub also contains older experiments, game prototypes, Godot/GDExtension work, networking tests, and previous iterations of Freven. Those repositories are useful as history, but they do not necessarily represent the architecture or technical direction of my current engine and AI work.

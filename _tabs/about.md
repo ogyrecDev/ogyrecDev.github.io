@@ -1,72 +1,59 @@
 ---
-# the default layout is 'page'
 icon: fas fa-info-circle
-order: 4
+order: 5
 ---
 
-Hi, I'm **ogyrec** (Danil), an indie developer, technical enthusiast, and lifelong learner.
+Hi, I'm **Danylo Yenikeiev**. I'm a software engineer based in Warsaw, focused on systems, game engines, AI/ML, networking, developer tooling, and difficult debugging.
 
-## Who am I?
+I genuinely enjoy building things and understanding how complex systems work. Rust is my main language today, with Python as a frequent second tool when it fits the problem better.
 
-I'm an indie game developer and simulation tinkerer passionate about open source, self-education, and pushing technical boundaries. 
-My main focus is **voxel engines, game design, neural networks, and emergent AI**. 
-My primary languages are **Rust**, **Python**, **GDScript**, and a bit of **Lua** (mostly from earlier Roblox scripting). Right now, Rust is my main tool - I've picked it up quickly, and most of my core logic is written in it.
+## What I'm building
+
+My main project is a **modular, general-purpose game engine I'm building from scratch in Rust**.
+
+The work spans runtime and ECS architecture, rendering, assets and content, input, scenes, physics, plugins, voxel systems, task systems, developer tooling, testing, CI, performance, and API design. A core design goal is keeping high-level engine APIs independent from backend-specific details so engine users and plugins do not need to depend directly on graphics or windowing internals.
+
+**Freven** is a voxel game built on top of the engine and acts as a real downstream consumer. I use it to pressure-test gameplay paths, voxel world and chunk management, rendering and collision updates, interaction, diagnostics, frame-time behavior, and engine API boundaries.
+
+Most of this engine work is private while it is being prepared for a public release.
+
+## AI and simulation
+
+I also work heavily on AI and simulation systems, including:
+
+- deterministic neural-network execution
+- recurrent and time-delayed network behavior
+- NEAT and neuroevolution
+- evolutionary algorithms
+- reinforcement learning
+- artificial life and ecological simulations
+- reproducible experiments and deterministic simulation tooling
+- LLM systems with memory, task workflows, and external connectors
+
+Some of this work integrates with my engine, while other parts are intentionally engine-independent.
 
 ## Background
 
-I got into game dev with a Minecraft-inspired multiplayer project, then moved on to building voxel games and engines in **Godot** (over 3000 hours). 
-My experience includes everything from GDScript scripting to optimizing with Rust via GDExtension. 
-Over time, I shifted almost entirely to Rust for both performance and code clarity, gradually moving from Godot to **Bevy** as my needs outgrew the editor.
+I spent years working with **Godot**, including Rust through **GDExtension**, before moving deeper into lower-level Rust systems and my own engine architecture. I still work comfortably in Godot codebases and integrations, and I can get into Unity, Unreal Engine, backend systems, networking stacks, or unfamiliar codebases when the work calls for it.
 
-## Current Projects
+I especially like problems where the difficult part is figuring out what is actually wrong: reproducing an issue, tracing the root cause across subsystem boundaries, implementing the smallest reliable fix, and adding validation so it stays fixed.
 
-I'm working on **[Freven](https://discord.gg/zKY3Tkk837)**, a hardcore voxel sandbox/survival game focused on:
-- **Deep world generation**
-- **Data-driven modding**
-- **Biomes, genetics & mutations**
-- **Flexible survival/creative modes**
-- **Modular AI, including neuroevolution (optional, but well-optimized for CPUs/GPUs)**
-- **Reputation, clan systems, and emergent diplomacy**
-- **Multiplayer from day one**
+## Selected public work
 
-The engine is written in **Rust**, using Bevy for rendering and ECS, but most systems are my own pure Rust code.  
-The goal: a world where you can survive, build, mod, experiment, or just wander.
+- **[Quinn: Windows/Wine ECN compatibility](https://github.com/quinn-rs/quinn/pull/2532)** - merged upstream contribution that keeps QUIC endpoint creation working when Wine/Proton does not provide optional Winsock ECN functionality.
+- **[Rune Companion](https://github.com/ogyrec-o/rune-companion)** - LLM companion framework with streaming model responses, SQLite-backed memory and tasks, injected service interfaces, and console/Matrix connectors.
+- **[Gridworld Learning Lab](https://github.com/ogyrec-o/gridworld-learning-lab)** - reproducible Rust reinforcement-learning experiment with tabular Q-learning, seeded environments, persisted policies, evaluation metrics, and deterministic visual rollouts.
 
-## Technical interests
+## How I work
 
-- Neural networks & neuroevolution (custom NEAT implementation in Rust & Python)
-- Simulation (AI agents, RL, WorldBox-style emergent worlds)
-- Low-level graphics (voxel rendering, custom chunk systems, shaders, optimization)
-- Open source, knowledge sharing, and minimal reliance on big platforms
-- Automation (Discord bots, scripting, long-term memory AI, voice/text agents, etc.)
+I care about clear ownership and dependency boundaries, reproducibility, performance that is measured rather than guessed, and focused regression tests around failures that actually occurred.
 
-## Inspirations
+I enjoy both building systems from scratch and entering an existing codebase with very little context and working backward from a real failure.
 
-Mostly inspired by **Vintage Story** (huge respect to Tyron!), Minecraft (especially with mechanical mods like Create), and WorldBox.  
-Love deep technical dives, procedural systems, and seeing emergent behavior in action.
+## Contact
 
-## Philosophy
-
-I'm strongly against "the Matrix" - surveillance, corporate overreach, and the erosion of privacy and individual freedom.  
-**create, share, stay free** - that's my motto.  
-I believe in open source, transparency, and making tech that empowers, not enslaves.
-
-I'm passionate about **sharing knowledge and helping others** - that's why I created this site, write devlogs, and actively support and mentor anyone interested in these topics.  
-If you have questions or want to discuss anything technical, feel free to reach out!
-
-
-## Fun facts
-
-- My first mobile game (built with Godot) hit #1 in Play Market (CIS region) for two weeks.
-- I also compose music & soundtracks.
-- I’ve released (and abandoned) many experimental projects; only a few reached the public, but I'm working to open-source more soon.
-- I spend at least 8 hours a day (sometimes 12+) on Freven and related tech.
-- Plan to release some Freven systems, NEAT, simulation tools and other projects open-source.
-
-## Contacts
+I'm open to contract work and longer-term engineering collaboration, especially around systems, engines, integrations, networking, AI/simulation, performance, and debugging.
 
 - **GitHub:** [@ogyrec-o](https://github.com/ogyrec-o)
-- **Signal:** `0546e47e337a19217a59d92043be4433d93a23946a8d171dccfdab393781e9f77a`
-- **Discord:** `ogyrec_`
-- **Freven Discord:** [https://discord.gg/zKY3Tkk837](https://discord.gg/zKY3Tkk837)
-- **Email:** ogyrec.404@proton.me
+- **LinkedIn:** [Danylo Yenikeiev](https://www.linkedin.com/in/danylo-yenikeiev/)
+- **Email:** [ogyrec.404@proton.me](mailto:ogyrec.404@proton.me)

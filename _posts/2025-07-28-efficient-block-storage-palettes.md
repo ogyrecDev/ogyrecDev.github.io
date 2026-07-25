@@ -1,248 +1,238 @@
 ---
-title: "Efficient Block Storage with Per-Chunk Palettes"
-description: "How block palettes reduce chunk memory usage and scale well to thousands of block types. Includes clear logic, reasoning, and edge-case handling."
+title: "Palette-Based Voxel Chunk Storage"
+description: "A practical look at per-chunk palettes, direct storage, bit packing, and the trade-offs behind compact voxel data."
 image: /assets/img/posts/2025-07-28-efficient-block-storage-palettes/preview.png
 date: 2025-07-28 21:30:00 +0200
+last_modified_at: 2026-07-25 02:30:00 +0200
 categories: [guides, voxel]
-tags: [voxel, block-storage, palette, optimization, freven, chunk]
+tags: [voxel, block-storage, palette, optimization, rust, chunk]
 toc: true
-keywords: ["voxel palette", "block id", "chunk storage", "memory efficient voxel", "block system", "mod support", "paletted chunks", "voxel optimization", "freven", "vintage story", "minecraft"]
 ---
 
-When building a voxel game engine, one of the first questions you'll run into is:  
-**How should I store block data in a chunk efficiently – without wasting memory, and without limiting flexibility?**
+Voxel storage looks simple until the world becomes large enough that a few bytes per cell turn into gigabytes.
 
-This post explains the **palette-based approach** I use in [Freven](https://discord.gg/zKY3Tkk837), why it's better than just storing raw `u16` block IDs, and what to do **if your chunk ends up with more than 255 block types**.
+A useful pattern is to separate **global block identity** from the compact value stored inside each chunk. A chunk-local palette lets the world support a large global set of block types without paying the full identifier width for every voxel.
 
-It's written especially for people starting out – because when I began, I had no idea this even mattered. Until a developer from Vintage Story explained it to me.
+This article focuses on the design itself rather than any one game's current implementation. My own engine architecture has changed since the first version of this post, but the underlying storage trade-offs are still useful.
 
----
+## 1. Direct IDs: the simple baseline
 
-## 1. The Naive Way: Store Block IDs Directly
+Assume a `32 × 32 × 32` chunk:
 
-Let’s say your world uses `u16` block IDs – that gives you up to **65,536 global block types**.
-
-The simplest way to store a chunk is:
-
-```rust
-let blocks: Vec<u16> = vec![0; 32 * 32 * 32]; // one per voxel
+```text
+32 * 32 * 32 = 32,768 voxels
 ```
 
-That’s **65,536 bytes per chunk**, or **64 KB**.
+If every voxel stores a `u16` global block ID:
 
-For one chunk it’s fine.  
-But across 100,000 chunks, that’s ~6.5 GB of block data – not counting lighting, metadata, or entities.
+```rust
+let blocks: Vec<u16> = vec![0; 32 * 32 * 32];
+```
 
-The problem is: **most chunks don’t use more than 50–100 unique blocks.** So why waste 2 bytes per voxel?
+The raw block array takes:
 
----
+```text
+32,768 * 2 bytes = 65,536 bytes = 64 KiB
+```
 
-## 2. The Palette-Based Format (Used in Freven and Vintage Story)
+That is a perfectly reasonable representation. It is simple, direct, predictable, and fast to index.
 
-Both [Freven](https://discord.gg/zKY3Tkk837) and [Vintage Story](https://www.vintagestory.at/) use **per-chunk palettes** for compact block storage.
+The question is whether every chunk really needs the full global ID width for every cell.
 
-> **Note from Tyron (Vintage Story dev via DM):**  
-> Block data we store in a paletted format, much like a .gif file with a color palette. Each 32x32x32 chunk gets its own palette. This allows compact storage (because most chunks never use many variants of blocks), but you do need to resize the palette and index array when new types get added.
+## 2. Local palettes
 
-In Freven, the format is:
+A palette stores the global IDs used by one chunk and lets the voxel array store only an index into that palette.
 
-- Global `BlockId` is `u16` (supports up to 65,536 unique block types).
-- Each chunk stores:
-  - A **palette**: `Vec<BlockId>` (max 255 entries)
-  - A **data array**: `Vec<u8>` (32768 entries), indexing into the palette
-
-Memory usage:
-
-- 32 KB for block indices (`32768` x `u8`)
-- +max ~0.5 KB for the palette (`255` x `u16`)
-
-**Total: ~33 KB per chunk -> nearly 2x smaller than naive `u16` storage.**
-
----
-
-## 3. Code Example
-
-Structure:
+A minimal representation might look like this:
 
 ```rust
 struct Chunk {
-    palette: Vec<u16>,     // global BlockIds
-    blocks: Vec<u8>,       // indices into palette
+    palette: Vec<BlockId>,
+    blocks: Vec<u8>,
 }
 ```
 
-Access a voxel:
+If the chunk contains at most 256 palette entries, each voxel needs only one byte.
 
-```rust
-let index = chunk.blocks[flat_index(x, y, z)];
-let block_id = chunk.palette[index as usize];
+For a `32³` chunk with `u16` global IDs, the worst case before an index-width transition is roughly:
+
+```text
+32,768 bytes for voxel indices
++ up to 512 bytes for 256 u16 palette entries
+= 33,280 bytes
 ```
 
-Insert a block:
+That is about 32.5 KiB instead of 64 KiB for the raw block field.
+
+The important idea is not the exact percentage. It is that **local complexity controls local storage cost**.
+
+## 3. Reading a voxel
+
+The basic lookup is straightforward:
 
 ```rust
-fn insert_block(chunk: &mut Chunk, block: u16) -> u8 {
-    if let Some(i) = chunk.palette.iter().position(|&b| b == block) {
-        return i as u8;
+let palette_index = chunk.blocks[flat_index(x, y, z)];
+let block_id = chunk.palette[palette_index as usize];
+```
+
+The extra indirection is usually cheap, but it is still a trade-off. Direct IDs have simpler access; palettes reduce memory when chunks reuse a small set of values.
+
+## 4. Adding a block type to the palette
+
+A naive insertion path could be:
+
+```rust
+fn palette_index_for(chunk: &mut Chunk, block: BlockId) -> Option<u8> {
+    if let Some(index) = chunk.palette.iter().position(|&id| id == block) {
+        return Some(index as u8);
     }
-    if chunk.palette.len() >= 255 {
-        panic!("Palette overflow: too many unique blocks in chunk!");
+
+    if chunk.palette.len() == 256 {
+        return None;
     }
+
     chunk.palette.push(block);
-    (chunk.palette.len() - 1) as u8
+    Some((chunk.palette.len() - 1) as u8)
 }
 ```
 
----
+For tiny palettes, a linear search can be completely adequate. If palette mutation becomes hot, a reverse lookup table or another indexing strategy may be worthwhile.
 
-## 4. Why It Works So Well
+Measure before complicating it.
 
-Most chunks only contain a small set of blocks:
+## 5. What happens after 256 entries?
 
-- Grass, dirt, stone, water, air – that's enough for basic terrain.
-- Even complex chunks rarely exceed 100–150 block types.
-- You can support **up to 65,536 (or more) global blocks**, but each chunk only needs the local ones.
+A `u8` index has 256 possible values, so the representation needs a transition once the palette grows beyond that.
 
-So with `u8 + palette`, you:
+There are several reasonable designs.
 
-- Use only **1 byte per voxel**
-- Still support **full `u16` or even `u32` global BlockIds**
-- Avoid bloating memory with huge global IDs
+### Wider palette indices
 
-You could also upgrade to `u16` palette indices for up to 65,535 unique blocks per chunk – but most engines never need this. `u8` is compact and cache-friendly.
+Promote the chunk from `u8` indices to `u16` indices.
 
----
+**Advantages:**
 
-## 5. What If a Chunk Has More Than 255 Unique Blocks?
+- conceptually simple
+- keeps palette semantics
+- direct indexing remains easy
 
-It’s rare – but can happen in:
+**Cost:**
 
-- Heavily modded worlds
-- Highly decorated structures
-- Glitched or biome-transition edge cases
+- the voxel index array doubles from 32 KiB to 64 KiB for a `32³` chunk
 
-### Option A: Fallback to `u16` format (recommended)
+For unusually diverse chunks, that may still be entirely acceptable.
 
-Stop using a palette and store raw `u16` per voxel:
+### Direct global IDs
 
-```rust
-let blocks: Vec<u16> = vec![0; 32768];
-```
+Switch the chunk to direct global IDs once palette compression stops being useful.
 
-**Pros:**
-- Very simple to implement
-- Constant-time access, no indirection
-- No need to manage palettes
+This can be attractive when the widened palette representation would cost roughly the same as direct storage anyway.
 
-**Cons:**
-- Uses ~64 KB vs. ~33 KB (≈ 2x memory)
-- Slightly slower to serialize due to size
-- Wasteful in most chunks
+### Bit-packed indices
 
-This is what **Minecraft does internally** using `bits_per_block` – if more than 8 bits are needed, it falls back to 13-bit global IDs.
+Instead of fixing the index width to 8 or 16 bits, choose a width based on the current palette size.
 
-### Option B: Multiple palettes (not recommended)
+For example:
 
-Split the palette:
+- 2 entries -> 1 bit
+- 4 entries -> 2 bits
+- 16 entries -> 4 bits
+- 256 entries -> 8 bits
 
-- Use two palettes (`palette_a`, `palette_b`)
-- Use high bit of `u8` to select the group
+This can reduce memory further, especially for simple chunks, but it adds packing/unpacking logic and makes mutation more complicated.
 
-Gives 510 unique blocks with 1-byte indices.
+It is a classic memory-versus-complexity trade-off.
 
-**But...**
+## 6. Global identity can stay wide
 
-**Cons:**
-- More branching:
-  ```rust
-  let block_id = if index < 128 {
-      palette_a[index as usize]
-  } else {
-      palette_b[(index - 128) as usize]
-  };
-  ```
+The chunk-local representation does not need to limit the global content space.
 
-- Slower and harder to maintain
-- Tiny memory savings (~32 KB per chunk)
-
-Too complex for little benefit.
-
-### Option C: Bit-packed dynamic format (advanced)
-
-**Used in Minecraft Java Edition 1.13+**
-
-- For 2 blocks -> 1 bit
-- For 4 blocks -> 2 bits
-- For 16 blocks -> 4 bits
-- For 256 blocks -> 8 bits
-- For >256 blocks -> fallback to global ID (13 bits)
-
-Internally stored as a **bitstream** with dynamic `bits_per_block`.
-
-See Mojang's:
-- `BitStorage` (bit array)
-- `PalettedContainer` (palette + bit-packed storage)
-
-**Pros:**
-- Extremely compact in simple chunks (plains/caves)
-- Automatically adjusts to chunk complexity
-
-**Cons:**
-- Slower: bit shifts, masking, and bounds checks per voxel
-- More complex to serialize and debug
-- No `Vec<u8>` or `Vec<u16>` – must write custom bitarray
-
-Benchmarks in real-world engines (like Minecraft modded or cubic chunks) often show 1.5x to 2x slower access compared to flat arrays.
-So weigh trade-offs carefully.
-
----
-
-## 6. Do You Have to Use `u16`?
-
-No – global `BlockId` can even be `u32` if your game needs >65,536 blocks.
-
-The chunk storage (palette + index) stays the same – just the palette values become `u32`.
-
-- If your world uses 2 million blocks (e.g., modded ecosystem), just change:
+For example:
 
 ```rust
-type BlockId = u32; // instead of u16
+type BlockId = u32;
 ```
 
-- You can still use `u8` or `u16` indices into the palette, depending on how many block types are in the chunk.
+A chunk may still store one-byte local indices if it happens to use only a small subset of those global block IDs.
 
-This keeps your system future-proof and avoids artificial limits.
+This separation is especially useful in data-driven or moddable systems because global identity and local storage density solve different problems.
+
+## 7. Palette identity is not content identity
+
+One architectural mistake is allowing a local palette index to escape the chunk and become a persistent block identity.
+
+It should not.
+
+Palette index `7` only means "entry seven in this specific palette." If the palette is rebuilt, serialized differently, compacted, or reordered, that number may change.
+
+Persistent references should use a stable global identity. Palette indices are storage details.
+
+That distinction becomes important for serialization, networking, editing, and hot reload.
+
+## 8. Mutation and serialization matter
+
+The best in-memory layout is not automatically the best overall design.
+
+Ask how the chunk behaves when:
+
+- a new block type appears during editing
+- an old palette entry becomes unused
+- the chunk is serialized and loaded again
+- block definitions are remapped
+- a network snapshot or delta references block identity
+- a storage format changes between versions
+
+A palette format should have explicit rules for these transitions rather than relying on incidental vector order.
+
+## 9. A practical representation
+
+One useful model is an enum that makes the storage mode explicit:
+
+```rust
+enum BlockStorage {
+    Uniform(BlockId),
+    Paletted8 {
+        palette: Vec<BlockId>,
+        indices: Vec<u8>,
+    },
+    Direct16(Vec<u16>),
+}
+```
+
+A real engine may use different names, wider IDs, bit packing, copy-on-write data, compressed serialization, or additional states. The value of this shape is that the transition rules become visible in the type system.
+
+A completely uniform chunk can even collapse to one value with no per-voxel array at all.
+
+## 10. What I would optimize first
+
+Before building an elaborate compression system, I would measure:
+
+1. typical unique block count per chunk
+2. percentage of uniform chunks
+3. memory consumed by block storage versus lighting, mesh data, physics, entities, and caches
+4. read/write frequency
+5. serialization cost
+6. how often chunks cross representation thresholds
+
+The best design depends on workload.
+
+A dense editor workload can favor different trade-offs from a mostly immutable streamed world.
+
+## Summary
+
+Per-chunk palettes are useful because they decouple a large global content space from the small set of values most chunks actually contain.
+
+The core rules are simple:
+
+- keep global identity stable and separate from local storage indices
+- choose index width based on measured chunk diversity
+- define representation transitions explicitly
+- consider uniform storage before more complex compression
+- treat serialization and mutation as part of the format design
+- benchmark the real workload before optimizing for theoretical density
+
+That gives you a storage system that can stay compact without turning local compression details into global engine semantics.
 
 ---
 
-## 7. Summary: When to Use a Palette?
-
-| Scenario                            | Recommendation          |
-|-------------------------------------|--------------------------|
-| ≤ 255 block types per chunk         | Use `u8 + palette`       |
-| > 255 block types (rare)            | Fallback to `u16`        |
-| Frequent >255 chunks (unusual)      | Consider fixed `u16`     |
-| Extreme compression needs           | Use bit-packed           |
-| Global block count > 65536          | Use `u32` BlockId        |
-
-**Per-chunk palettes are the best default** – compact, flexible, and widely used.
-
----
-
-## Final Thoughts
-
-I didn’t know about this when I started building Freven.  
-There wasn’t a simple post explaining it clearly.
-
-Back when I was learning voxel engine internals, Tyron from Vintage Story explained this idea to me – and it completely changed how I thought about chunk storage.
-
-If you're working on a voxel game, I hope this guide saves you from the same early mistakes – and gives you a solid foundation to build on.
-
----
-
-## Contacts
-
-- GitHub: [@ogyrec-o](https://github.com/ogyrec-o)  
-- Email: ogyrec.404@proton.me  
-- Discord: `ogyrec_`  
-- [Freven Discord](https://discord.gg/zKY3Tkk837)
+For more current engine work, see the **[Projects](/projects/)** page or **[my GitHub](https://github.com/ogyrec-o)**.

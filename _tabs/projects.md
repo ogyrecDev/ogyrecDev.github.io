@@ -21,6 +21,8 @@ The repository is currently private while the engine is being prepared for publi
 
 Current work exercises voxel world and chunk management, rendering and collision updates, interaction, world streaming, diagnostics, frame-time performance, and the boundary between reusable engine capabilities and game-specific behavior.
 
+If you want to follow the project, discuss development, or just hang around, you can join the **[Freven Discord](https://discord.gg/jNzCBNSMyW)**.
+
 ## AI and simulation systems
 
 I maintain a set of AI and simulation systems covering deterministic neural networks, recurrent and delayed connections, NEAT and neuroevolution, evolutionary algorithms, reinforcement learning, artificial life, ecological simulation, and reproducible experiment tooling.

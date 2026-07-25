@@ -1,172 +1,151 @@
 ---
 title: "Why I Write My Own Engine"
-description: "A deep dive into the motivations, structure, and philosophy behind building a custom engine from scratch. Why not Unity, Godot, or Bevy?"
+description: "Why I build a general-purpose game engine from scratch in Rust, what I want to understand, and the architectural rules I care about most."
 image: /assets/img/posts/2025-07-27-why-i-write-my-own-engine/preview.png
 date: 2025-07-26 23:50:00 +0200
-categories: [devlog, freven]
-tags: [custom-engine, rust, godot, bevy, modding, indie-dev, architecture]
+last_modified_at: 2026-07-25 02:30:00 +0200
+categories: [engineering, game-engine]
+tags: [rust, custom-engine, architecture, ecs, rendering, plugins, game-development]
 toc: true
 ---
 
-This is not a tutorial. It's not a guide. It's a reflection.
+I originally wrote this post while my engine was still going through much earlier architectural experiments. The project has changed substantially since then, so this is the version that reflects what I'm actually building now.
 
-Why would someone choose to write their own engine in 2025 - when Unity, Godot, Unreal, and Bevy already exist? Here's my answer, based on experience and intent.
+This is not an argument that everyone should write a game engine. Most people who want to ship a game should use an existing one.
 
----
+I do it because building the underlying systems is part of the thing I enjoy.
 
-## The Real Reason: Understanding
+## The real reason: understanding
 
-I want to know **how everything works**. 
-Not just call `move_and_collide()` or use high-level physics magic - I want to understand what happens under the hood:
+I want to understand how the layers fit together instead of only learning how to call them.
 
-- How collisions are resolved.
-- How rendering works.
-- How ECS should actually behave.
-- How memory is used in real-time.
-- Why certain things break.
+That means going deep into questions like:
 
-The deeper I go, the more I enjoy it. It's not about reinventing the wheel - it's about **knowing how to shape it**.
+- how an ECS owns and schedules state
+- how render data moves from gameplay state to GPU resources
+- how assets keep stable identity across import, loading, and hot reload
+- how input, scenes, physics, and plugins fit into a runtime without becoming tightly coupled
+- where backend-specific details should stop leaking upward
+- how shutdown, reload, and failure paths should behave
+- how to make performance measurable instead of intuitive
 
----
+The deeper I go, the more interesting the work becomes.
 
-## The Journey So Far
+## From a game-specific codebase to a general-purpose engine
 
-My project started like many others - one big monolithic codebase where **game and engine were the same**. It worked... until it didn't.
+The project did not start with a perfect architecture.
 
-When I tried to add **modding support**, I realized the architecture was wrong. I couldn't build flexible systems without splitting it all up.
+Earlier versions mixed game code, engine code, modding concerns, and third-party framework assumptions much more heavily. That was useful because it exposed the boundaries I actually needed instead of the boundaries I might have invented on paper.
 
-So I started over. From zero. Not because I failed, but because I **learned what I really needed**.
+The current engine is intentionally **general-purpose**. Freven is a game built on top of it, not the definition of what the engine is allowed to be.
 
----
+That distinction matters.
 
-## Starting Over - But Smarter
+If a capability is reusable across games, it belongs in the engine or an engine plugin. If it is a Freven-specific rule, content decision, or product behavior, it belongs in Freven.
 
-I created a new clean structure:
+## The engine should have real downstream users
 
-- `engine_core`: the engine internals (some parts currently use Bevy).
-- `engine_api`: a clean interface for modding (no Bevy dependency).
-- `game`: basic game (like main menu), loads code-based mods.
-- `game_creative`: the main creative game mode, written *on top* of my own API - just like a mod.
+An engine can look clean in isolation and still be painful to use.
 
-Now, the API evolves **as I need it**:
+That is why Freven matters to the architecture. It is a real downstream consumer that exercises the engine through gameplay paths rather than synthetic API examples alone.
 
-- Need logging? Add logging to the engine and expose it in the API.
-- Need blocks? Same.
-- Need mod registry? Done.
+When I add or change an engine capability, I want to know whether it survives real use:
 
-The result: the engine grows *with the game*, and the API always reflects real usage.
+- voxel chunk loading and world updates
+- rendering and collision changes
+- interaction and editing
+- frame-time budgets
+- diagnostics
+- plugin boundaries
+- asset and content flows
 
----
+The game is not a special privileged caller. It should use the same public abstractions that other engine users are expected to use.
 
-## The Game is a Mod
+## Backend details should stop at the boundary
 
-In my system, the game itself is written as a mod using my API. 
-This approach makes the API better, because I'm its main user.
+One of the strongest rules in the current architecture is that high-level engine and gameplay APIs should not expose backend-specific implementation handles.
 
-Yes, the engine still knows about the player, network, etc. - this isn't a general-purpose engine. But these built-in features are exposed via API, so they can be extended by mods too.
+For example, using a graphics backend internally does not mean gameplay systems should know about that backend's device objects, surfaces, or command types.
 
-And yes - I plan to eventually **replace all Bevy parts** (ECS, rendering, etc.) with my own. Step by step. No rush.
+The same applies to windowing and platform details.
 
----
+This gives me freedom to change internals without forcing every user-facing system to change with them. It also makes the public API easier to reason about because it describes engine concepts rather than whichever library currently implements them.
 
-## Not Everything Is Mine (Yet)
+## First-party and third-party extensions should play by the same rules
 
-I don't rewrite everything from scratch immediately - because I want to **release playable builds** sooner, not in 10 years.
+I do not want a plugin API that is technically public while all useful first-party functionality secretly bypasses it.
 
-That's why:
+A good extension model should be strong enough that my own plugins can use the same interfaces an external plugin would use.
 
-- I use parts of Bevy (ECS, renderer) **as temporary layers**.
-- My API doesn't depend on Bevy - it depends on the engine.
-- So when I replace Bevy internals, the API stays stable.
+That pressure tends to reveal bad APIs early. If I need privileged internal access every time I build something substantial, the public abstraction is probably incomplete.
 
-Moral of the story: **I use what's practical**, but I design for control and long-term evolution.
+## Ownership and lifecycle are architecture too
 
----
+A lot of engine bugs do not come from the glamorous parts of graphics or physics. They come from ownership that was never made explicit.
 
-## Why Not Just Use Godot?
+Who creates this resource?
+Who shuts it down?
+Can it be created twice?
+What survives a reload?
+What happens after a partial failure?
+Can a stale connection still mutate state?
 
-I've used **Godot for 3000+ hours**.
+I care a lot about these paths because systems that work only during the happy path are not finished systems.
 
-I still think it's the best choice for solo devs and indie teams. It's better than Unity (IMO) in every way that matters: open source, lightweight, no corporate bloat.
+This has influenced how I think about processes, sockets, tasks, plugins, assets, and runtime resources in general: creation and cleanup are two halves of the same design.
 
-I even used GDExt (Rust + Godot) to avoid GDScript's slowness.
+## Why Rust
 
-But eventually... I wanted to go lower. Understand more.
-I stopped using editors entirely. No visual scripting. No scenes.
+Rust fits the kind of work I want to do.
 
-Just Rust. Just code. Just logic.
+It gives me low-level control while making ownership and aliasing part of the design instead of something I can postpone indefinitely. The type system is especially useful when the project grows across many crates and subsystem boundaries.
 
----
+It is not magic. You can still build bad architecture in Rust. But it gives me good tools for making invalid states harder to express and for being explicit about who owns what.
 
-## But Why Care About Others Understanding Your Code?
+## Why not just use Godot, Unity, Unreal, or Bevy?
 
-Because I want to build a team - even a small one.
+I have a lot of respect for existing engines and frameworks. I spent years working with Godot and GDExtension, and I still work with existing engine codebases when the job calls for it.
 
-I want other devs to look at my project and say:
-**"I get it. I can help. Let's build this."**
+But my goal here is different.
 
-So I write cleanly, I comment key parts, I document the API, and I think in terms of:
+I am not building this engine because existing tools cannot make games. They obviously can.
 
-- Future-proofing.
-- Mod support.
-- Making it extensible.
+I am building it because I want control over the architecture, I want to learn the foundations directly, and I enjoy the engineering itself enough that the engine is not merely an obstacle between me and a finished game.
 
-And if no one joins? That's fine too. As long as *I* can return in a few months and still understand what I wrote.
+## What I do not rewrite for ideological reasons
 
----
+"From scratch" does not mean pretending the operating system, graphics APIs, libraries, or ecosystem do not exist.
 
-## API Philosophy
+I use dependencies when they provide a good implementation boundary. The important part is that the architecture should own its concepts instead of accidentally becoming the object model of a dependency.
 
-- The engine is closed-source.
-- The API is open-source.
-- The mods use only the API - not internal engine details.
+That is the difference I care about.
 
-That means: **modders get powerful tools**, but I still control core logic and stability.
-And since I write the creative mode using the same API, I know it works.
+## Testing the boundaries
 
-This isn't theoretical. It's real. I'm using it daily.
+As the engine has grown, tests have become increasingly architectural rather than just local unit checks.
 
----
+I want reproducible external-consumer examples, lifecycle regression tests, clean shutdown/restart behavior, deterministic simulation where appropriate, and focused tests for bugs that actually happened.
 
-## My Goal
+A regression test is most valuable when it preserves a lesson the codebase already paid to learn.
 
-I want to release builds. Real ones.
-With survival systems, world simulation, thousands of blocks, creatures, and player-driven evolution.
+## The goal
 
-But I also want this to be a platform. A world where:
+I want the engine to become a practical, understandable, extensible foundation for different 2D and 3D projects, with Freven as one demanding real-world consumer rather than the only possible game.
 
-- Mods thrive.
-- Everything is deeply customizable.
-- There's freedom - but within solid structure.
+The repository is private while the current foundation is being prepared for public release. When it becomes public, I want the architecture and examples to be clear enough that another engineer can understand the boundaries without needing a private tour of the codebase.
 
----
+That is also one of the reasons I write posts like this.
 
-## Final Note: I'm Not Preaching
+## Final note
 
-I'm not telling you to abandon Unity or Godot.
-I'm not saying you *must* build your own engine.
+Writing your own engine is usually the longer path to shipping a game.
 
-If your goal is to finish a game - **use the tools that help you do that**.
+For me, that is not a hidden cost. It is part of the work I wanted to do in the first place.
 
-But if your goal is to understand the foundations -
-To go deeper -
-To remove the magic -
+I like building systems, taking them apart mentally, finding where abstractions stop matching reality, and rebuilding them until the boundaries make sense.
 
-Then hey, welcome to the deep end. Bring snacks.
+The deeper I go, the more I enjoy it.
 
 ---
 
-## Need Help? Want to Collaborate?
-
-If you're into low-level systems, modding, voxel engines, or weird simulation stuff -
-Feel free to reach out. I'm always open to good conversation and code.
-
----
-
-## Contacts
-
-- **GitHub:** [@ogyrec-o](https://github.com/ogyrec-o)
-- **Signal:** `0546e47e337a19217a59d92043be4433d93a23946a8d171dccfdab393781e9f77a`
-- **Discord:** `ogyrec_`
-- **Freven Discord:** [https://discord.gg/zKY3Tkk837](https://discord.gg/zKY3Tkk837)
-- **Email:** ogyrec.404@proton.me
+You can find my current public work on **[GitHub](https://github.com/ogyrec-o)** or see a compact overview on the **[Projects](/projects/)** page.

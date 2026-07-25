@@ -13,7 +13,7 @@ My main project is a **modular, general-purpose game engine I'm building from sc
 
 The work spans runtime and ECS architecture, rendering, assets and content, input, scenes, physics, plugins, voxel systems, task systems, developer tooling, testing, CI, performance, and API design. A core design goal is keeping high-level engine APIs independent from backend-specific details so engine users and plugins do not need to depend directly on graphics or windowing internals.
 
-**Freven** is a voxel game built on top of the engine and acts as a real downstream consumer. I use it to pressure-test gameplay paths, voxel world and chunk management, rendering and collision updates, interaction, diagnostics, frame-time behavior, and engine API boundaries.
+**Freven** is a voxel game built on top of the engine and acts as a real downstream consumer. I use it to pressure-test gameplay paths, voxel world and chunk management, rendering and collision updates, interaction, diagnostics, frame-time behavior, and engine API boundaries. You can follow the project and development discussion in the **[Freven Discord](https://discord.gg/jNzCBNSMyW)**.
 
 Most of this engine work is private while it is being prepared for a public release.
 
@@ -56,4 +56,5 @@ I'm open to contract work and longer-term engineering collaboration, especially 
 
 - **GitHub:** [@ogyrec-o](https://github.com/ogyrec-o)
 - **LinkedIn:** [Danylo Yenikeiev](https://www.linkedin.com/in/danylo-yenikeiev/)
+- **Freven Discord:** [Join the community](https://discord.gg/jNzCBNSMyW)
 - **Email:** [ogyrec.404@proton.me](mailto:ogyrec.404@proton.me)

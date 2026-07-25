@@ -5,6 +5,7 @@ date: 2026-07-25 02:30:00 +0200
 categories: [devlog, engineering]
 tags: [rust, game-engine, ai, simulation, networking, freven]
 toc: true
+pin: true
 ---
 
 My public site has been quiet for a while, but the engineering work has not.

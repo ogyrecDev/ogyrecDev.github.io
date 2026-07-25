@@ -45,26 +45,10 @@ jobs:
           JEKYLL_ENV: "production"
 
       - name: Test site
-        id: htmlproofer
-        shell: bash
         run: |
-          set +e
           bundle exec htmlproofer _site \
             --disable-external \
-            --ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/" \
-            2>&1 | tee htmlproofer.log
-          status=${PIPESTATUS[0]}
-          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
-          exit "$status"
-
-      - name: Upload HTMLProofer diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: htmlproofer-log
-          path: htmlproofer.log
-          if-no-files-found: ignore
-          retention-days: 1
+            --ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3

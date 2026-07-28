@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1300" viewBox="0 0 1400 1300" role="img" aria-labelledby="title desc">
+  <title id="title">Kova layered architecture</title>
+  <desc id="desc">External projects use a public facade over foundation, backend-neutral domains, plugin and render boundaries, runtime, and WGPU and winit backends.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#09111e"/><stop offset="1" stop-color="#060b13"/></linearGradient>
+    <linearGradient id="primary" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7388ff" stop-opacity="0.30"/><stop offset="1" stop-color="#54d8d9" stop-opacity="0.12"/></linearGradient>
+    <linearGradient id="domain" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1b2a45"/><stop offset="1" stop-color="#101b2e"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#00050c" flood-opacity="0.36"/></filter>
+  </defs>
+  <rect width="1400" height="1300" rx="34" fill="url(#bg)"/>
+  <circle cx="1160" cy="140" r="340" fill="#7183ff" fill-opacity="0.08"/>
+  <circle cx="220" cy="1160" r="300" fill="#5adadd" fill-opacity="0.045"/>
+
+  <g font-family="Inter,Arial,sans-serif">
+    <text x="700" y="78" text-anchor="middle" fill="#f2f5ff" font-size="40" font-weight="750">External game or validation project</text>
+    <text x="700" y="113" text-anchor="middle" fill="#9aaac2" font-size="19">Consumes public Kova interfaces</text>
+
+    <g fill="none" stroke="#74d7db" stroke-width="3" stroke-opacity="0.8">
+      <path d="M700 140 V190"/>
+      <path d="M690 178 L700 190 L710 178"/>
+    </g>
+
+    <g transform="translate(180 195)" filter="url(#shadow)">
+      <rect width="1040" height="126" rx="22" fill="url(#primary)" stroke="#8fa0ff" stroke-opacity="0.42"/>
+      <text x="48" y="48" fill="#f4f6ff" font-size="29" font-weight="750">Public facade and desktop composition</text>
+      <text x="48" y="87" fill="#bec9dc" font-size="20">kova_desktop | KovaApp | public plugin groups</text>
+    </g>
+
+    <g fill="none" stroke="#7388ff" stroke-width="3" stroke-opacity="0.66">
+      <path d="M700 321 V371"/>
+      <path d="M690 359 L700 371 L710 359"/>
+    </g>
+
+    <g transform="translate(180 376)" filter="url(#shadow)">
+      <rect width="1040" height="126" rx="22" fill="url(#domain)" stroke="#8299c2" stroke-opacity="0.24"/>
+      <text x="48" y="48" fill="#edf3ff" font-size="29" font-weight="750">Foundation</text>
+      <text x="48" y="87" fill="#aebbd0" font-size="20">core | ECS | app | math | tasks | filesystem</text>
+    </g>
+
+    <g fill="none" stroke="#7388ff" stroke-width="3" stroke-opacity="0.66">
+      <path d="M700 502 V552"/>
+      <path d="M690 540 L700 552 L710 540"/>
+    </g>
+
+    <g transform="translate(180 557)" filter="url(#shadow)">
+      <rect width="1040" height="174" rx="22" fill="url(#domain)" stroke="#8299c2" stroke-opacity="0.24"/>
+      <text x="48" y="48" fill="#edf3ff" font-size="29" font-weight="750">Backend-neutral domains</text>
+      <text x="48" y="88" fill="#aebbd0" font-size="20">assets | scene | transform | input | camera</text>
+      <text x="48" y="124" fill="#aebbd0" font-size="20">mesh | material | physics | diagnostics</text>
+    </g>
+
+    <g fill="none" stroke="#7388ff" stroke-width="3" stroke-opacity="0.66">
+      <path d="M700 731 V781"/>
+      <path d="M690 769 L700 781 L710 769"/>
+    </g>
+
+    <g transform="translate(180 786)" filter="url(#shadow)">
+      <rect width="1040" height="126" rx="22" fill="url(#domain)" stroke="#8299c2" stroke-opacity="0.24"/>
+      <text x="48" y="48" fill="#edf3ff" font-size="29" font-weight="750">Plugins and render pipeline boundaries</text>
+      <text x="48" y="87" fill="#aebbd0" font-size="20">public contracts | extraction | planning</text>
+    </g>
+
+    <g fill="none" stroke="#7388ff" stroke-width="3" stroke-opacity="0.66">
+      <path d="M700 912 V962"/>
+      <path d="M690 950 L700 962 L710 950"/>
+    </g>
+
+    <g transform="translate(180 967)" filter="url(#shadow)">
+      <rect width="1040" height="126" rx="22" fill="url(#domain)" stroke="#8299c2" stroke-opacity="0.24"/>
+      <text x="48" y="48" fill="#edf3ff" font-size="29" font-weight="750">Runtime and runners</text>
+      <text x="48" y="87" fill="#aebbd0" font-size="20">desktop composition | window and render loop</text>
+    </g>
+
+    <g fill="none" stroke="#7388ff" stroke-width="3" stroke-opacity="0.66">
+      <path d="M700 1093 V1143"/>
+      <path d="M690 1131 L700 1143 L710 1131"/>
+    </g>
+
+    <g transform="translate(180 1148)" filter="url(#shadow)">
+      <rect width="1040" height="106" rx="22" fill="#0e1828" stroke="#6d819f" stroke-opacity="0.30"/>
+      <text x="48" y="45" fill="#d8e2f1" font-size="28" font-weight="750">Backends</text>
+      <text x="48" y="78" fill="#9cacc3" font-size="20">WGPU | winit | platform integration</text>
+    </g>
+  </g>
+</svg>

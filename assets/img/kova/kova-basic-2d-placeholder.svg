@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Kova Basic 2D placeholder</title>
+  <desc id="desc">A minimal illustrated placeholder showing a coral rectangle overlapped by a blue hexagon.</desc>
+  <rect width="1280" height="720" fill="#111827"/>
+  <g transform="translate(640 405) rotate(7)">
+    <rect x="-280" y="-145" width="560" height="290" rx="8" fill="#f2624c"/>
+    <polygon points="150,-110 255,-50 255,70 150,130 45,70 45,-50" fill="#1a7aff"/>
+  </g>
+  <text x="64" y="86" fill="#f9fafb" font-family="Arial, sans-serif" font-size="42" font-weight="700">Kova Basic 2D</text>
+  <text x="64" y="132" fill="#9ca3af" font-family="Arial, sans-serif" font-size="22">Illustrated placeholder for the real engine screenshot</text>
+</svg>

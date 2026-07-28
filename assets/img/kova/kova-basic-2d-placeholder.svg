@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Kova Basic 2D illustrated placeholder</title>
+  <desc id="desc">A coral rectangle and blue hexagon overlap on a dark background.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#070d17"/><stop offset="1" stop-color="#101a2d"/></linearGradient>
+    <linearGradient id="coral" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff866f"/><stop offset="1" stop-color="#ef5e49"/></linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#38a0ff"/><stop offset="1" stop-color="#1268e5"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#000814" flood-opacity="0.52"/></filter>
+    <pattern id="grid" width="54" height="54" patternUnits="userSpaceOnUse"><path d="M54 0H0V54" fill="none" stroke="#8da5ce" stroke-opacity="0.045"/></pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <circle cx="1325" cy="150" r="300" fill="#166fea" fill-opacity="0.09"/>
+  <circle cx="180" cy="760" r="320" fill="#ff6b55" fill-opacity="0.055"/>
+  <g transform="translate(790 485) rotate(6)" filter="url(#shadow)">
+    <rect x="-440" y="-165" width="880" height="330" rx="16" fill="url(#coral)"/>
+    <rect x="-440" y="-165" width="880" height="330" rx="16" fill="none" stroke="#ffd1c9" stroke-opacity="0.28" stroke-width="3"/>
+  </g>
+  <g transform="translate(915 442) rotate(-13)" filter="url(#shadow)">
+    <polygon points="0,-190 165,-95 165,95 0,190 -165,95 -165,-95" fill="url(#blue)"/>
+    <polygon points="0,-190 165,-95 165,95 0,190 -165,95 -165,-95" fill="none" stroke="#b7d8ff" stroke-opacity="0.38" stroke-width="4"/>
+  </g>
+  <g transform="translate(150 120)">
+    <text x="0" y="0" fill="#f0f4ff" font-family="Inter,Arial,sans-serif" font-size="45" font-weight="750">Basic 2D</text>
+    <text x="0" y="42" fill="#9caec6" font-family="Inter,Arial,sans-serif" font-size="20">Hierarchy, generated geometry, typed color, explicit draw order</text>
+  </g>
+  <g transform="translate(1160 744)">
+    <rect width="260" height="54" rx="27" fill="#07101b" fill-opacity="0.86" stroke="#dfb462" stroke-opacity="0.42"/>
+    <text x="130" y="34" text-anchor="middle" fill="#e7bf73" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="700">MEDIA PLACEHOLDER</text>
+  </g>
+</svg>

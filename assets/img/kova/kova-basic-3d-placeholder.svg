@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Kova Basic 3D illustrated placeholder</title>
+  <desc id="desc">A blue cube on a white circular base with an angled perspective composition and visible light.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0a1322"/><stop offset="1" stop-color="#060c15"/></linearGradient>
+    <radialGradient id="spot" cx="72%" cy="22%" r="52%"><stop stop-color="#e8edff" stop-opacity="0.28"/><stop offset="1" stop-color="#8da0ff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="base" cx="42%" cy="32%" r="70%"><stop stop-color="#ffffff"/><stop offset="0.78" stop-color="#e4e9f4"/><stop offset="1" stop-color="#aeb9ca"/></radialGradient>
+    <linearGradient id="top" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c3cbff"/><stop offset="1" stop-color="#8798ff"/></linearGradient>
+    <linearGradient id="left" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7185ed"/><stop offset="1" stop-color="#3d53b2"/></linearGradient>
+    <linearGradient id="right" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#98a8ff"/><stop offset="1" stop-color="#5b70d8"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="30"/></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#spot)"/>
+  <circle cx="1248" cy="175" r="18" fill="#ffffff"/>
+  <circle cx="1248" cy="175" r="70" fill="#ffffff" fill-opacity="0.12" filter="url(#blur)"/>
+  <path d="M1248 175 L930 405" stroke="#ffffff" stroke-opacity="0.08" stroke-width="120" stroke-linecap="round"/>
+  <ellipse cx="785" cy="708" rx="410" ry="84" fill="#01050a" fill-opacity="0.55" filter="url(#blur)"/>
+  <ellipse cx="785" cy="640" rx="500" ry="160" fill="url(#base)"/>
+  <ellipse cx="785" cy="640" rx="500" ry="160" fill="none" stroke="#ffffff" stroke-opacity="0.28" stroke-width="3"/>
+  <g transform="translate(590 274)">
+    <polygon points="205,0 410,103 205,206 0,103" fill="url(#top)"/>
+    <polygon points="0,103 205,206 205,456 0,353" fill="url(#left)"/>
+    <polygon points="205,206 410,103 410,353 205,456" fill="url(#right)"/>
+    <path d="M205 0 L410 103 L410 353 L205 456 L0 353 L0 103 Z" fill="none" stroke="#e7ebff" stroke-opacity="0.34" stroke-width="3"/>
+  </g>
+  <g transform="translate(150 120)">
+    <text x="0" y="0" fill="#f0f4ff" font-family="Inter,Arial,sans-serif" font-size="45" font-weight="750">Basic 3D</text>
+    <text x="0" y="42" fill="#9caec6" font-family="Inter,Arial,sans-serif" font-size="20">Generated mesh, lit material, point light, perspective camera</text>
+  </g>
+  <g transform="translate(1160 744)">
+    <rect width="260" height="54" rx="27" fill="#07101b" fill-opacity="0.86" stroke="#dfb462" stroke-opacity="0.42"/>
+    <text x="130" y="34" text-anchor="middle" fill="#e7bf73" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="700">MEDIA PLACEHOLDER</text>
+  </g>
+</svg>

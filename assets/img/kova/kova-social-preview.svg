@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Kova Engine technical preview</title>
+  <desc id="desc">Kova title with a minimal cube illustration and modular Rust game engine foundation subtitle.</desc>
+  <rect width="1200" height="630" fill="#111827"/>
+  <circle cx="940" cy="315" r="220" fill="#18213d"/>
+  <ellipse cx="940" cy="410" rx="175" ry="50" fill="#f3f4f6"/>
+  <polygon points="940,190 1035,242 940,295 845,242" fill="#8fa0ff"/>
+  <polygon points="845,242 940,295 940,400 845,346" fill="#6f80df"/>
+  <polygon points="1035,242 940,295 940,400 1035,346" fill="#5367c9"/>
+  <text x="86" y="250" fill="#f9fafb" font-family="Arial, sans-serif" font-size="96" font-weight="800">Kova</text>
+  <text x="91" y="320" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="32">Modular Rust game engine foundation</text>
+  <text x="91" y="376" fill="#8fa0ff" font-family="Arial, sans-serif" font-size="24">Technical preview</text>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Kova Camera Orbit placeholder</title>
+  <desc id="desc">A minimal illustrated placeholder showing a blue cube on a white circular base.</desc>
+  <rect width="1280" height="720" fill="#111827"/>
+  <ellipse cx="640" cy="505" rx="300" ry="92" fill="#f3f4f6"/>
+  <polygon points="640,250 785,330 640,410 495,330" fill="#8fa0ff"/>
+  <polygon points="495,330 640,410 640,565 495,482" fill="#6f80df"/>
+  <polygon points="785,330 640,410 640,565 785,482" fill="#5367c9"/>
+  <path d="M300 390 C370 170, 900 115, 1005 370" fill="none" stroke="#9ca3af" stroke-width="4" stroke-dasharray="14 12"/>
+  <circle cx="1005" cy="370" r="12" fill="#d1d5db"/>
+  <text x="64" y="86" fill="#f9fafb" font-family="Arial, sans-serif" font-size="42" font-weight="700">Kova Camera Orbit</text>
+  <text x="64" y="132" fill="#9ca3af" font-family="Arial, sans-serif" font-size="22">Illustrated placeholder for the real engine capture</text>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Kova Camera Orbit illustrated placeholder</title>
+  <desc id="desc">A blue cube on a white circular base with a curved orbit path and a camera marker.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1424"/>
+      <stop offset="0.58" stop-color="#101a31"/>
+      <stop offset="1" stop-color="#07101b"/>
+    </linearGradient>
+    <linearGradient id="cubeTop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#bbc5ff"/>
+      <stop offset="1" stop-color="#8294ff"/>
+    </linearGradient>
+    <linearGradient id="cubeLeft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6c7fe8"/>
+      <stop offset="1" stop-color="#4359bd"/>
+    </linearGradient>
+    <linearGradient id="cubeRight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#91a2ff"/>
+      <stop offset="1" stop-color="#5d72dd"/>
+    </linearGradient>
+    <radialGradient id="floor" cx="50%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.78" stop-color="#dfe7f6"/>
+      <stop offset="1" stop-color="#aebbd2"/>
+    </radialGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#8ea5cc" stroke-opacity="0.055" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <circle cx="1190" cy="125" r="320" fill="#6d7fff" fill-opacity="0.10"/>
+  <circle cx="250" cy="770" r="360" fill="#5ad7db" fill-opacity="0.055"/>
+
+  <ellipse cx="805" cy="712" rx="395" ry="72" fill="#01050b" fill-opacity="0.55" filter="url(#shadow)"/>
+  <ellipse cx="800" cy="650" rx="470" ry="150" fill="url(#floor)"/>
+  <ellipse cx="800" cy="650" rx="470" ry="150" fill="none" stroke="#ffffff" stroke-opacity="0.38" stroke-width="3"/>
+
+  <ellipse cx="800" cy="470" rx="620" ry="330" fill="none" stroke="#8e9fff" stroke-opacity="0.18" stroke-width="3" stroke-dasharray="12 18" transform="rotate(-9 800 470)"/>
+  <path d="M 305 582 C 420 215, 1030 65, 1355 350" fill="none" stroke="#7c90ff" stroke-width="5" stroke-linecap="round" stroke-opacity="0.82"/>
+  <path d="M 1355 350 l -34 -5 l 18 30 z" fill="#7c90ff"/>
+  <circle cx="304" cy="582" r="12" fill="#62d6db" filter="url(#glow)"/>
+  <circle cx="1355" cy="350" r="9" fill="#7c90ff"/>
+
+  <g transform="translate(594 280)">
+    <polygon points="206,0 412,103 206,206 0,103" fill="url(#cubeTop)"/>
+    <polygon points="0,103 206,206 206,457 0,354" fill="url(#cubeLeft)"/>
+    <polygon points="206,206 412,103 412,354 206,457" fill="url(#cubeRight)"/>
+    <path d="M206 0 L412 103 L412 354 L206 457 L0 354 L0 103 Z" fill="none" stroke="#dfe5ff" stroke-opacity="0.40" stroke-width="3"/>
+  </g>
+
+  <g transform="translate(180 116)">
+    <rect width="400" height="102" rx="22" fill="#09111f" fill-opacity="0.78" stroke="#91a9d0" stroke-opacity="0.18"/>
+    <text x="30" y="45" fill="#f1f5ff" font-family="Inter,Arial,sans-serif" font-size="27" font-weight="700">Camera Orbit</text>
+    <text x="30" y="76" fill="#9fb0c8" font-family="Inter,Arial,sans-serif" font-size="17">Public input, camera, scene, and transform APIs</text>
+  </g>
+
+  <g transform="translate(1275 270)">
+    <rect x="0" y="0" width="110" height="72" rx="16" fill="#111f36" stroke="#8fa5ff" stroke-opacity="0.45"/>
+    <path d="M25 21 H68 L86 36 L68 51 H25 Z" fill="#a7b4ff" fill-opacity="0.85"/>
+    <circle cx="48" cy="36" r="10" fill="#13213a"/>
+  </g>
+
+  <g transform="translate(1160 744)">
+    <rect width="260" height="54" rx="27" fill="#07101b" fill-opacity="0.86" stroke="#dfb462" stroke-opacity="0.42"/>
+    <text x="130" y="34" text-anchor="middle" fill="#e7bf73" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="700">MEDIA PLACEHOLDER</text>
+  </g>
+</svg>

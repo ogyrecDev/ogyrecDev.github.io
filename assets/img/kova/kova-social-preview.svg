@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Kova Engine technical preview</title>
+  <desc id="desc">Kova title, modular Rust game engine foundation subtitle, and illustrated camera orbit scene.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08111e"/><stop offset="0.55" stop-color="#111b31"/><stop offset="1" stop-color="#060c15"/></linearGradient>
+    <linearGradient id="word" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffffff"/><stop offset="0.55" stop-color="#c6d0ff"/><stop offset="1" stop-color="#6ddadd"/></linearGradient>
+    <linearGradient id="top" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c2cbff"/><stop offset="1" stop-color="#8395ff"/></linearGradient>
+    <linearGradient id="left" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6e82ea"/><stop offset="1" stop-color="#4056b5"/></linearGradient>
+    <linearGradient id="right" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#98a8ff"/><stop offset="1" stop-color="#5b70d8"/></linearGradient>
+    <radialGradient id="floor" cx="50%" cy="35%" r="70%"><stop stop-color="#ffffff"/><stop offset="1" stop-color="#aab6c9"/></radialGradient>
+    <filter id="shadow"><feGaussianBlur stdDeviation="18"/></filter>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#91a9d0" stroke-opacity="0.045"/></pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="1040" cy="95" r="300" fill="#7183ff" fill-opacity="0.12"/>
+  <circle cx="95" cy="610" r="290" fill="#58d6d9" fill-opacity="0.055"/>
+
+  <g transform="translate(72 100)">
+    <text x="0" y="0" fill="#66d8db" font-family="Inter,Arial,sans-serif" font-size="21" font-weight="750" letter-spacing="4">TECHNICAL PREVIEW</text>
+    <text x="-8" y="168" fill="url(#word)" font-family="Inter,Arial,sans-serif" font-size="196" font-weight="800" letter-spacing="-14">Kova</text>
+    <text x="0" y="225" fill="#c6d1e4" font-family="Inter,Arial,sans-serif" font-size="31" font-weight="650">Modular Rust game engine foundation</text>
+    <text x="0" y="270" fill="#91a3bb" font-family="Inter,Arial,sans-serif" font-size="20">Public-style 2D and 3D paths. Explicit backend boundaries.</text>
+  </g>
+
+  <ellipse cx="940" cy="496" rx="206" ry="45" fill="#01050a" fill-opacity="0.5" filter="url(#shadow)"/>
+  <ellipse cx="940" cy="462" rx="240" ry="74" fill="url(#floor)"/>
+  <ellipse cx="940" cy="462" rx="240" ry="74" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="2"/>
+  <path d="M742 414 C 790 240, 1050 184, 1140 312" fill="none" stroke="#7c90ff" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1140 312 l -22 -3 l 12 19 z" fill="#7c90ff"/>
+  <g transform="translate(845 258)">
+    <polygon points="96,0 192,48 96,96 0,48" fill="url(#top)"/>
+    <polygon points="0,48 96,96 96,212 0,164" fill="url(#left)"/>
+    <polygon points="96,96 192,48 192,164 96,212" fill="url(#right)"/>
+  </g>
+  <text x="1132" y="588" text-anchor="end" fill="#7588a5" font-family="Inter,Arial,sans-serif" font-size="15">Illustrated media placeholder</text>
+</svg>

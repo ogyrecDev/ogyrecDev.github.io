@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Kova Basic 3D placeholder</title>
+  <desc id="desc">A minimal illustrated placeholder showing a blue cube on a white circular base.</desc>
+  <rect width="1280" height="720" fill="#111827"/>
+  <ellipse cx="640" cy="520" rx="315" ry="94" fill="#f3f4f6"/>
+  <polygon points="640,245 790,330 640,414 490,330" fill="#8fa0ff"/>
+  <polygon points="490,330 640,414 640,575 490,487" fill="#6f80df"/>
+  <polygon points="790,330 640,414 640,575 790,487" fill="#5367c9"/>
+  <text x="64" y="86" fill="#f9fafb" font-family="Arial, sans-serif" font-size="42" font-weight="700">Kova Basic 3D</text>
+  <text x="64" y="132" fill="#9ca3af" font-family="Arial, sans-serif" font-size="22">Illustrated placeholder for the real engine screenshot</text>
+</svg>

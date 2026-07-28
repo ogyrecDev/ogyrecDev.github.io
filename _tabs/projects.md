@@ -5,19 +5,17 @@ order: 4
 
 A compact overview of what I'm building and the public work that best represents my current engineering focus.
 
-## Modular Rust game engine
+## Kova Engine
 
-My main project is a **modular, general-purpose game engine built from scratch in Rust**.
+**[Open the Kova Engine technical preview](/projects/kova/)**
 
-It includes custom runtime and ECS architecture, rendering, assets and content, input, scenes, physics, plugins, task systems, voxel capabilities, tooling, testing, and backend-neutral public APIs.
+Kova is my modular, general-purpose Rust game engine foundation. The technical preview documents the current public-style Camera Orbit, Basic 3D, and Basic 2D examples, engine-user API shape, architecture boundaries, validation approach, capability status, and explicit pre-alpha limitations.
 
-The architecture is deliberately layered: high-level engine and gameplay code should not depend directly on backend-specific graphics or windowing handles, and extension points are designed to work for first-party and third-party plugins through the same public interfaces.
-
-The repository is currently private while the engine is being prepared for public release.
+The repository is currently private while the engine is being prepared for a public-source pre-alpha release.
 
 ## Freven
 
-**Freven** is a voxel game built on top of my engine and used as a real downstream validation project.
+**Freven** is a voxel game built on top of Kova and used as a real downstream validation project.
 
 Current work exercises voxel world and chunk management, rendering and collision updates, interaction, world streaming, diagnostics, frame-time performance, and the boundary between reusable engine capabilities and game-specific behavior.
 

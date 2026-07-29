@@ -11,14 +11,14 @@ toc: true
 
 Landing pages, web applications, AI and API integrations, and difficult technical fixes.
 
-Available for short fixed-scope projects and longer-term collaboration.
+Available for short fixed-scope projects and longer-term collaboration with clients worldwide.
 
 <div class="d-flex flex-wrap gap-2 my-4">
   <a class="btn btn-primary" href="mailto:ogyrec.404@proton.me?subject=Project%20inquiry">Discuss a project</a>
   <a class="btn btn-outline-primary" href="#selected-work">View selected work</a>
 </div>
 
-Based in Poland | Remote worldwide | Async-friendly  
+Europe-based | Remote worldwide | Async-friendly  
 Python | TypeScript | Rust | APIs | Docker | AI integrations
 
 ---
@@ -41,7 +41,7 @@ Typical work:
 - forms, databases and user workflows
 - implementation from an existing design
 
-**Typical starting scope: 1,500-5,000 PLN**
+**Typical starting project: $500-$1,500 USD**
 
 ### Automate
 
@@ -58,7 +58,7 @@ Typical work:
 - internal tools and operational dashboards
 - Python and TypeScript backends
 
-**Typical starting scope: 2,000-7,000 PLN**
+**Typical starting project: $750-$2,000 USD**
 
 ### Rescue
 
@@ -75,9 +75,9 @@ Typical work:
 - lifecycle, WebSocket and backend failures
 - tests, logging and production hardening
 
-**Paid diagnostics start at 450 PLN.**
+**Paid diagnostics start at $150 USD.**
 
-> These ranges are starting points and a practical filter, not a fixed price list for every project.
+> These ranges are starting points and a practical filter, not a fixed price list for every project. Final scope and pricing are agreed before work begins.
 
 ---
 

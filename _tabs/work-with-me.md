@@ -134,7 +134,7 @@ toc: false
         <p>
           Updated and hardened an existing Godot plugin. Fixed editor lifecycle cleanup, subprocess and WebSocket failures, malformed message handling, oversized buffering, reconnect behavior and regression coverage.
         </p>
-        <p class="case-skills">Godot | Python services | WebSockets | Testing | Debugging</p>
+        <p class="case-skills">Godot | GDScript | WebSockets | Testing | Debugging</p>
       </article>
 
       <article class="case-card">

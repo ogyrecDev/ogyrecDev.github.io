@@ -41,7 +41,7 @@ Typical work:
 - forms, databases and user workflows
 - implementation from an existing design
 
-**Typical starting project: $500-$1,500 USD**
+**Typical starting project: $500-$1,500**
 
 ### Automate
 
@@ -58,7 +58,7 @@ Typical work:
 - internal tools and operational dashboards
 - Python and TypeScript backends
 
-**Typical starting project: $750-$2,000 USD**
+**Typical starting project: $750-$2,000**
 
 ### Rescue
 
@@ -75,9 +75,9 @@ Typical work:
 - lifecycle, WebSocket and backend failures
 - tests, logging and production hardening
 
-**Paid diagnostics start at $150 USD.**
+**Paid diagnostics start at $150.**
 
-> These ranges are starting points and a practical filter, not a fixed price list for every project. Final scope and pricing are agreed before work begins.
+> All prices are in USD. These ranges are starting points and a practical filter, not a fixed price list for every project. Final scope and pricing are agreed before work begins.
 
 ---
 
